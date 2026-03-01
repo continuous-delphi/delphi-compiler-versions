@@ -23,7 +23,7 @@
       "description": "Dataset version for the contents of this file (semantic versioning). Independent of schemaVersion.",
       "pattern": "^\\d+\\.\\d+\\.\\d+$",
       "examples": [
-        "0.1.0"
+        "0.3.0"
       ]
     },
     "meta": {
@@ -36,7 +36,7 @@
           "description": "UTC date (YYYY-MM-DD) when this file was generated or last updated.",
           "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
           "examples": [
-            "2026-02-23"
+            "2026-03-01"
           ]
         },
         "scope": {
@@ -56,14 +56,38 @@
     }
   },
   "$defs": {
+    "buildSystem": {
+      "type": "string",
+      "enum": ["DCC", "MSBuild"],
+      "description": "A supported build system identifier."
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "Win32",
+        "Win64",
+        "Win64ARMEC",
+        "macOS32",
+        "macOS64",
+        "macOSARM64",
+        "Linux64",
+        "iOS",
+        "iOSSimulator",
+        "Android32",
+        "Android64"
+      ],
+      "description": "A supported target platform identifier."
+    },
     "versionEntry": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "ver",
-        "product_name",
+        "verDefine",
+        "productName",
         "aliases",
-        "compilerVersion"
+        "compilerVersion",
+        "supportedBuildSystems",
+        "supportedPlatforms"
       ],
       "properties": {
         "verDefine": {
@@ -110,6 +134,28 @@
             "\\Software\\Embarcadero\\BDS\\37.0"
           ]
         },
+        "supportedBuildSystems": {
+          "type": "array",
+          "description": "Build systems supported by this version. DCC = direct command-line compiler invocation. MSBuild = .dproj-based builds via MSBuild. Represents the union of all support across all point releases within this version family.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/buildSystem"
+          },
+          "examples": [
+            ["DCC", "MSBuild"]
+          ]
+        },
+        "supportedPlatforms": {
+          "type": "array",
+          "description": "Target platforms supported by this version family. Represents the union of all platforms supported across all point releases. See notes for any sub-version platform introductions.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/platform"
+          },
+          "examples": [
+            ["Win32", "Win64", "macOS64", "macOSARM64", "iOS", "Android32", "Android64", "Linux64"]
+          ]
+        },
         "aliases": {
           "type": "array",
           "description": "Identifiers that resolve to this entry. The properties verDefine and productName are automatically used as aliases.",
@@ -128,7 +174,7 @@
         },
         "notes": {
           "type": "array",
-          "description": "Optional notes for special cases.",
+          "description": "Optional notes for special cases, including sub-version platform introductions.",
           "items": {
             "type": "string"
           },
@@ -140,7 +186,7 @@
   "examples": [
     {
       "schemaVersion": "1.0.0",
-      "dataVersion": "0.1.0",
+      "dataVersion": "0.3.0",
       "versions": [
         {
           "verDefine": "VER370",
@@ -148,12 +194,16 @@
           "productName": "Delphi 13 Florence",
           "packageVersion": "370",
           "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\37.0",
+          "supportedBuildSystems": ["DCC", "MSBuild"],
+          "supportedPlatforms": ["Win32", "Win64", "Win64ARMEC", "macOS64", "macOSARM64", "iOS", "Android32", "Android64", "Linux64"],
           "aliases": [
             "Delphi 13",
             "BDS 37.0",
             "CompilerVersion 37.0"
           ],
-          "notes": []
+          "notes": [
+            "RAD Studio 13 unifies internal version numbers to 37 (registry, RTL, packages)."
+          ]
         }
       ]
     }
