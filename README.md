@@ -94,7 +94,7 @@ Tooling should resolve installation directories via the registry `RootDir` value
 
 This specification exists to ensure that:
 
-- `cd-ci-toolchain` can normalize installed Delphi versions.
+- `delphi-toolchain-*` can normalize installed Delphi versions.
 - CI build actions can select toolchains deterministically.
 - Delphi tooling can reason about compiler capabilities.
 - Alias resolution (`Delphi 13`, `BDS 37.0`, `VER370`, etc.) is consistent across all tools.
