@@ -1,8 +1,8 @@
-# cd-spec-delphi-compiler-versions
+# delphi-compiler-versions
 
 ![Status](https://img.shields.io/badge/status-incubator-orange)
-![License](https://img.shields.io/github/license/continuous-delphi/cd-spec-delphi-compiler-versions)
-![Pages](https://img.shields.io/website?url=https%3A%2F%2Fcontinuous-delphi.github.io%2Fcd-spec-delphi-compiler-versions%2F&label=github%20pages)
+![License](https://img.shields.io/github/license/continuous-delphi/delphi-compiler-versions)
+![Pages](https://img.shields.io/website?url=https%3A%2F%2Fcontinuous-delphi.github.io%2Fdelphi-compiler-versions%2F&label=github%20pages)
 ![Schema](https://img.shields.io/badge/schema-1.0.0-blue)
 ![Data](https://img.shields.io/badge/data-0.1.0-blue)
 ![Continuous Delphi](https://img.shields.io/badge/org-continuous--delphi-red)
@@ -46,7 +46,7 @@ All `Continuous Delphi` generated code and downstream tooling will derive from t
 Canonical schema `$id`:
 
 ```text
-https://continuous-delphi.github.io/cd-spec-delphi-compiler-versions/schemas/1.0.0/delphi-compiler-versions.schema.json
+https://continuous-delphi.github.io/delphi-compiler-versions/schemas/1.0.0/delphi-compiler-versions.schema.json
 ```
 
 Note: The schema $id URI is currently being served via `GitHub Pages` (which has been enabled on this repository). GitHub Pages must remain active for these URIs to resolve.
