@@ -1,0 +1,40 @@
+# .gitattributes
+#
+# Line ending policy for delphi-compiler-versions
+# note to self
+#   git add --renormalize .
+#   git commit -m "chore: enforce CRLF for .inc via .gitattributes"
+#
+# Default: LF for all text files.  Explicit overrides below for file types
+# that must be CRLF on Windows regardless of the platform running CI.
+
+# Catch-all: normalise all text files to LF in the repo, convert to
+# platform line endings on checkout (core.autocrlf behaviour).
+* text=auto
+
+# Delphi include files should always be CRLF
+*.inc text eol=crlf
+
+# PowerShell scripts must be CRLF.  PowerShell on Windows writes CRLF by
+# default; keeping scripts CRLF avoids spurious diffs when Windows devs
+# edit files that were last touched by the ubuntu-slim CI runner (which
+# writes LF).  Prevent ubuntu workflows from producing LF
+*.ps1   text eol=crlf
+*.psm1  text eol=crlf
+*.psd1  text eol=crlf
+
+# Batch files must be CRLF
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+
+# JSON, YAML, Markdown, and shell scripts: LF only.
+*.json  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.md    text eol=lf
+*.sh    text eol=lf
+
+# Binary files: no line ending conversion.
+*.png   binary
+*.jpg   binary
+*.zip   binary
