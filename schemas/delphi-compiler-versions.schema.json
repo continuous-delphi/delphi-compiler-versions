@@ -66,7 +66,6 @@
       "enum": [
         "Win32",
         "Win64",
-        "Win64ARMEC",
         "macOS32",
         "macOS64",
         "macOSARM64",
@@ -195,7 +194,7 @@
           "packageVersion": "370",
           "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\37.0",
           "supportedBuildSystems": ["DCC", "MSBuild"],
-          "supportedPlatforms": ["Win32", "Win64", "Win64ARMEC", "macOS64", "macOSARM64", "iOS", "Android32", "Android64", "Linux64"],
+          "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOS", "Android32", "Android64", "Linux64"],
           "aliases": [
             "Delphi 13",
             "BDS 37.0",
