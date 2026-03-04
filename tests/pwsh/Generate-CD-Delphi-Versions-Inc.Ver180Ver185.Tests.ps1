@@ -72,9 +72,9 @@ Describe 'CD_DELPHI_VERSIONS.inc generator (VER180/VER185 compatibility)' {
     $matches.Count | Should -Be 2
   }
 
-    AfterAll {
+  AfterAll {
     if ($script:TmpRoot -and (Test-Path -LiteralPath $script:TmpRoot)) {
         Remove-Item -LiteralPath $script:TmpRoot -Recurse -Force -ErrorAction SilentlyContinue
     }
-    }  
+  }
 }
