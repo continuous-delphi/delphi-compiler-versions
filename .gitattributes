@@ -8,9 +8,8 @@
 # Default: LF for all text files.  Explicit overrides below for file types
 # that must be CRLF on Windows regardless of the platform running CI.
 
-# Catch-all: normalise all text files to LF in the repo, convert to
-# platform line endings on checkout (core.autocrlf behaviour).
-* text=auto
+# Catch-all: normalise all text files to LF in the repo
+* text eol=lf
 
 # Delphi include files should always be CRLF
 *.inc text eol=crlf
