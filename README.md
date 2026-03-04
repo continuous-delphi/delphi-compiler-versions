@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/github/license/continuous-delphi/delphi-compiler-versions)
 ![Pages](https://img.shields.io/website?url=https%3A%2F%2Fcontinuous-delphi.github.io%2Fdelphi-compiler-versions%2F&label=github%20pages)
 ![Schema](https://img.shields.io/badge/schema-1.0.0-blue)
-![Data](https://img.shields.io/badge/data-0.4.0-blue) ![Continuous
+![Data](https://img.shields.io/badge/data-0.5.0-blue) ![Continuous
 Delphi](https://img.shields.io/badge/org-continuous--delphi-red)
 
 Canonical Delphi compiler version mapping based on official `VER###`
@@ -135,7 +135,7 @@ all point releases within the version family**. Where a platform was introduced 
 point release (rather than the initial release of the version family), this is noted in the
 entry's `notes` array.
 
-Valid platform values: `Win32`, `Win64`, `Win64ARMEC`, `macOS32`, `macOS64`, `macOSARM64`,
+Valid platform values: `Win32`, `Win64`, `macOS32`, `macOS64`, `macOSARM64`,
 `Linux64`, `iOS`, `iOSSimulator`, `Android32`, `Android64`.
 
 Only shipping, fully supported targets are included. Experimental or preview support

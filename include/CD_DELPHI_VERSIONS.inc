@@ -9,7 +9,7 @@
   --------------------------------------------------------------------------- }
 
 {$DEFINE CD_DELPHI_SCHEMA_1_0_0}
-{$DEFINE CD_DELPHI_DATA_0_4_0}
+{$DEFINE CD_DELPHI_DATA_0_5_0}
 {$DEFINE CD_DELPHI_GENERATED_2026_03_01}
 
 { ---------------------------------------------------------------------------
@@ -363,9 +363,5 @@
 
 {$IFDEF CD_DELPHI_XE2_OR_LATER}
   {$DEFINE CD_DELPHI_SUPPORTS_PLATFORM_WIN64}
-{$ENDIF}
-
-{$IFDEF CD_DELPHI_13_OR_LATER}
-  {$DEFINE CD_DELPHI_SUPPORTS_PLATFORM_WIN64ARM}
 {$ENDIF}
 

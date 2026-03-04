@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "dataVersion": "0.4.0",
+  "dataVersion": "0.5.0",
   "meta": {
     "generatedUtcDate": "2026-03-01",
     "scope": {
@@ -119,7 +119,7 @@
       "supportedBuildSystems": ["DCC"],
       "supportedPlatforms": ["Win32"],
       "aliases": ["Delphi2006", "D2006"],
-      "notes": []
+      "notes": ["Delphi 2007 also defines VER180 (shared with Delphi 2006). Use VER185 for 2007-only identification."]
     },
     {
       "verDefine": "VER185",
