@@ -43,6 +43,7 @@ tooling derive from that dataset.
 
     tools/
       generate-cd-delphi-versions-inc.ps1
+      generate-cd-delphi-compiler-versions-pas.ps1
 
     generated/
       CD_DELPHI_VERSIONS.inc                    # Delphi 2+ compatibility
@@ -149,7 +150,7 @@ Only shipping, fully supported targets are included. Experimental or preview sup
 
 The file:
 
-    include/CD_DELPHI_VERSIONS.inc
+    generated/CD_DELPHI_VERSIONS.inc
 
 provides Delphi projects with standardized compiler version and
 capability defines derived directly from the canonical dataset.
@@ -182,22 +183,66 @@ derived artifact.
 
 ------------------------------------------------------------------------
 
-## Generator
+## Generated Pascal Unit Artifact
+
+The file:
+
+    generated/DelphiCompilerVersions.pas
+
+provides Delphi projects with a strongly-typed Pascal unit derived
+directly from the canonical dataset. It is compatible with Delphi 2 and
+all later versions.
+
+It provides:
+
+-   `TCDDelphiPlatform` and `TCDDelphiBuildSystem` enumerations
+-   `TCDDelphiVersion` record with fields for all dataset properties,
+    including an `AliasesCsv` field for alias resolution
+-   `PCDDelphiVersion` pointer type
+-   `CDDelphiVersions` typed constant array, sorted chronologically
+-   `CD_SCHEMA_VERSION` and `CD_DATA_VERSION` string constants
+-   `CDGetLatestVersion` — returns the most recent entry in the array
+-   `CDCurrentCompilerVersion` and `CDCurrentCompilerVersionKnown` —
+    vars populated at unit initialization via `{$IFDEF VERxxx}` chains;
+    `Known` is `False` if the compiler is not recognized in the dataset
+-   `CDTryGetVersionByVerDefine`, `CDTryGetVersionByProductName`,
+    `CDTryGetVersionByAlias` — lookup functions
+
+The unit uses a conditional `uses` clause to select `System.SysUtils`
+(Delphi 2009 and later) or `SysUtils` (earlier versions) based on the
+`{$IFDEF UNICODE}` symbol, requiring no dependency on the `.inc` file.
+
+Historical edge cases (e.g. `VER180` / `VER185` compatibility) are
+handled explicitly in the `initialization` section.
+
+This Pascal unit is:
+
+-   Canonical
+-   Data-driven
+-   MIT-licensed
+-   Deterministically generated
+-   Protected by automated tests
+
+The JSON dataset is the single source of truth. The Pascal unit is a
+derived artifact.
+
+------------------------------------------------------------------------
+
+## Generators
 
     tools/generate-cd-delphi-versions-inc.ps1
+    tools/generate-cd-delphi-compiler-versions-pas.ps1
 
-The generator transforms the canonical dataset into the include
-artifact.
-
-Properties:
+Each generator transforms the canonical dataset into its respective
+generated artifact. Both share the same properties:
 
 -   Deterministic output
 -   Fully reproducible from JSON
 -   Safe to run in CI
--   No manual editing of the include file required
+-   No manual editing of the generated files required
 
-If the dataset or generator changes, the include file must be
-regenerated.
+If the dataset or a generator changes, the corresponding generated file
+must be regenerated.
 
 ------------------------------------------------------------------------
 
@@ -205,18 +250,18 @@ regenerated.
 
 The test suite ensures:
 
--   Correct token emission
--   Historical compatibility is preserved
+-   Correct token emission (`.inc`) and correct Pascal output (`.pas`)
+-   Historical compatibility is preserved (including `VER180`/`VER185`)
 -   Capability ranges are computed correctly
--   CRLF line endings
+-   CRLF line endings on all generated files
 -   UTF-8 encoding without BOM
--   No drift between JSON + generator and committed include file
-    (golden-file test)
+-   No drift between JSON + generators and committed generated files
+    (golden-file tests for both artifacts)
 
-If the include file becomes stale, tests fail and instruct the developer
-to regenerate it.
+If either generated file becomes stale, tests fail and instruct the
+developer to regenerate it.
 
-This guarantees that the published include artifact always reflects the
+This guarantees that all published generated artifacts always reflect the
 canonical dataset.
 
 ------------------------------------------------------------------------
