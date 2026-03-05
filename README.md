@@ -45,8 +45,8 @@ tooling derive from that dataset.
       generate-cd-delphi-versions-inc.ps1
 
     generated/
-      CD_DELPHI_VERSIONS.inc
-      DelphiCompilerVersions.pas
+      CD_DELPHI_VERSIONS.inc                    # Delphi 2+ compatibility
+      DelphiCompilerVersions.pas                # Delphi 2+ compatibility
 
     tests/
       pwsh/
