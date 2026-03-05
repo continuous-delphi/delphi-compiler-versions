@@ -212,9 +212,13 @@ It provides:
 -   `TryGetDelphiVersionByVerDefine`, `TryGetDelphiVersionByProductName`,
     `TryGetDelphiVersionByAlias` -- lookup functions
 
-The unit uses a conditional `uses` clause to select `System.SysUtils`
-(Delphi 2009 and later) or `SysUtils` (earlier versions) based on the
-`{$IFDEF UNICODE}` symbol, requiring no dependency on the `.inc` file.
+The generated unit is intentionally written using a conservative subset
+of Object Pascal: `var` parameters are used instead of `out`, `Exit`
+is used without a return value expression, `uses` items are scoped based
+on a `$IFDEF UNICODE` for utilizing unit scoped names, and functionality is
+exposed through simple procedures and functions rather than static classes.
+These choices are deliberate and help keep the generated unit broadly usable
+across the full historical range of Delphi versions. (Delphi 2+)
 
 Historical edge cases (e.g. `VER180` / `VER185` compatibility) are
 handled explicitly in the `initialization` section.
