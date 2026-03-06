@@ -49,8 +49,17 @@ jobs:
 
       - name: Populate release notes
         run: |
+          CHANGELOG_SECTION=$(awk '/^## \['"${VERSION}"'\]/{found=1; next} /^## \[/{if(found) exit} found' CHANGELOG.md)
+
+          if [[ -z "${CHANGELOG_SECTION}" ]]; then
+            echo "ERROR: No entry for version ${VERSION} found in CHANGELOG.md"
+            exit 1
+          fi
+
           sed "s/vX\.Y\.Z/v${VERSION}/g; s/X\.Y\.Z/${VERSION}/g; s/DATA_VERSION/${DATA_VERSION}/g; s/SCHEMA_VERSION/${SCHEMA_VERSION}/g" \
             .github/RELEASE_TEMPLATE.md > release-notes.md
+
+          printf '\n---\n\n# Change Log\n\n%s\n' "${CHANGELOG_SECTION}" >> release-notes.md
 
       - name: Create GitHub release
         env:

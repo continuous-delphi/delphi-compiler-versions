@@ -3,6 +3,30 @@
 Release tagging script for `delphi-compiler-versions`.
 Located at `tools/tag-release.ps1`.
 
+## Release checklist
+
+Before running the script, ensure:
+
+- [ ] All changes have been committed to the default branch and pushed to origin
+- [ ] Both artifacts regenerated if data or generator changed:
+
+  ```powershell
+  pwsh tools/generate-cd-delphi-versions-inc.ps1 -Force
+  pwsh tools/generate-cd-delphi-compiler-versions-pas.ps1 -Force
+  ```
+
+- [ ] All 60 tests pass: `pwsh tests/run-tests.ps1`
+- [ ] `CHANGELOG.md` has an entry for `vX.Y.Z`
+
+Then:
+
+```powershell
+pwsh tools/tag-release.ps1 -Version X.Y.Z -WhatIf   # dry run first
+pwsh tools/tag-release.ps1 -Version X.Y.Z           # create and push tag
+```
+
+_Reminder_:  The actual workflow trigger can be delayed by a few minutes
+
 ## Synopsis
 
 ```powershell
@@ -49,7 +73,8 @@ No git operations are performed until all checks pass.
 pwsh tools/tag-release.ps1 -Version 1.0.0
 ```
 
-```
+```text
+
 delphi-compiler-versions  tag-release
 ======================================
   Version : 1.0.0
@@ -89,7 +114,7 @@ Use this to validate repo state before committing to the release.
 pwsh tools/tag-release.ps1 -Version 1.0.0 -WhatIf
 ```
 
-```
+```text
   ok  data file found and valid JSON
   ok  git found (git version 2.47.0.windows.1)
   ok  inside git repository
@@ -118,7 +143,7 @@ first and then explicitly approve the push.
 pwsh tools/tag-release.ps1 -Version 1.0.0 -Confirm
 ```
 
-```
+```text
   ...all checks...
 
 All checks passed.
@@ -153,7 +178,7 @@ Rejected immediately by `ValidatePattern` before any code runs.
 pwsh tools/tag-release.ps1 -Version 1.0.0
 ```
 
-```
+```text
 FAIL  Working tree is not clean. Commit or stash all changes before tagging.
 
  M data/delphi-compiler-versions.json
@@ -170,7 +195,7 @@ Commit or stash all changes, then re-run.
 pwsh tools/tag-release.ps1 -Version 1.0.0
 ```
 
-```
+```text
 FAIL  Must be on 'main' branch to tag a release (currently on 'feature/add-florence').
       Switch to main, or use -SkipBranchCheck to override (not recommended).
 ```
@@ -182,7 +207,7 @@ FAIL  Must be on 'main' branch to tag a release (currently on 'feature/add-flore
 If `origin/HEAD` is not configured (e.g. in a manually initialised remote),
 the script warns and assumes `main`:
 
-```
+```text
   warn  origin/HEAD not set; assuming default branch is 'main'
 ```
 
@@ -196,7 +221,7 @@ To resolve: `git remote set-head origin -a`
 pwsh tools/tag-release.ps1 -Version 1.0.0
 ```
 
-```
+```text
 FAIL  Local HEAD is 2 commit(s) behind origin/main. Run 'git pull' before tagging.
 ```
 
@@ -208,7 +233,7 @@ FAIL  Local HEAD is 2 commit(s) behind origin/main. Run 'git pull' before taggin
 pwsh tools/tag-release.ps1 -Version 1.0.0
 ```
 
-```
+```text
 FAIL  Local HEAD is 1 commit(s) ahead of origin/main. Push your changes before tagging.
 ```
 
@@ -222,7 +247,7 @@ After a fetch, the single tag check covers both local and origin:
 pwsh tools/tag-release.ps1 -Version 1.0.0
 ```
 
-```
+```text
 FAIL  Tag 'v1.0.0' already exists (local or origin).
       To delete locally:  git tag -d v1.0.0
       To delete on origin: git push origin --delete v1.0.0
@@ -239,7 +264,7 @@ than the default. All other preconditions still run.
 pwsh tools/tag-release.ps1 -Version 1.0.1 -SkipBranchCheck
 ```
 
-```
+```text
   ok  data file found and valid JSON
   ok  git found (git version 2.47.0.windows.1)
   ok  inside git repository
@@ -268,7 +293,7 @@ The GitHub Actions release workflow should run for this tag.
 If the local tag is created but the push to origin fails, the script prints
 cleanup guidance before rethrowing the error:
 
-```
+```text
 ERROR: Tag/push failed.
 <exception detail>
 
@@ -277,26 +302,4 @@ Partial failure — check the state and clean up if needed:
     git tag -d v1.0.0
   Verify origin does not have a partial push:
     git ls-remote --tags origin refs/tags/v1.0.0
-```
-
----
-
-## Release checklist
-
-Before running the script, ensure:
-
-- [ ] Changes committed to the default branch and pushed to origin
-- [ ] Both artifacts regenerated if data or generator changed:
-  ```powershell
-  pwsh tools/generate-cd-delphi-versions-inc.ps1 -Force
-  pwsh tools/generate-cd-delphi-compiler-versions-pas.ps1 -Force
-  ```
-- [ ] All 60 tests pass: `pwsh tests/run-tests.ps1`
-- [ ] `RELEASE_TEMPLATE.md` is up to date with changelog notes
-
-Then:
-
-```powershell
-pwsh tools/tag-release.ps1 -Version X.Y.Z -WhatIf   # dry run first
-pwsh tools/tag-release.ps1 -Version X.Y.Z            # create and push tag
 ```

@@ -12,8 +12,7 @@ symbols.
 
 This repository defines the authoritative data model used by Continuous
 Delphi tooling to resolve, normalize, and compare Delphi compiler
-versions. The canonical identifier is the `VER###` symbol (for example:
-`VER180`, `VER230`, `VER360`, `VER370`).
+versions.
 
 ------------------------------------------------------------------------
 
@@ -22,8 +21,7 @@ versions. The canonical identifier is the `VER###` symbol (for example:
 -   For Delphi versions 2 and above (starts at `VER90`)
 -   Excludes C++Builder and .NET-only entries
 -   Includes registry metadata required for toolchain discovery
--   Includes supported build systems and target platforms per version
-    family
+-   Includes supported **Build Systems** and **Target Platforms** per version
 
 This repository is **data-first**. The JSON file under `data/` is the single
 source of truth. All Continuous Delphi generated code and downstream
@@ -54,25 +52,16 @@ tooling derive from that dataset.
 ```
 
 -   The schema is versioned and immutable once published.
--   The dataset is versioned independently via `dataVersion`.
--   The include file is generated and never manually edited.
+-   The generated include file and source file are generated and never manually edited.
 -   Tests enforce deterministic output and drift protection.
 
 Canonical schema `$id`:
 
 ```text
-    https://continuous-delphi.github.io/delphi-compiler-versions/schemas/1.0.0/delphi-compiler-versions.schema.json
+  https://continuous-delphi.github.io/delphi-compiler-versions/schemas/1.0.0/delphi-compiler-versions.schema.json
 ```
 
-GitHub Pages must remain active for these URIs to resolve.
-
-## Entity and Property Naming
-
-This repository follows the Continuous Delphi org-wide naming standard:
-
--   All JSON keys use lowerCamelCase
--   Acronyms are treated as words (e.g. `utcDate`, `regKeyRelativePath`)
--   Arrays are used for collections (`aliases: []`, `notes: []`)
+_GitHub Pages is enabled on the repository to serve the schema file._
 
 ### Dataset
 
@@ -92,8 +81,8 @@ data/delphi-compiler-versions.json
 ### Top-level fields
 
 - `schemaVersion` -- schema contract version (e.g. `"1.0.0"`)
-- `dataVersion` -- dataset content version (e.g. `"0.3.0"`)
-- `meta` -- optional metadata object; see below
+- `dataVersion` -- dataset content version (e.g. `"0.5.0"`)
+- `meta` -- metadata object; see below
 - `versions` -- ordered array of version entries
 
 ### `meta` fields
@@ -107,12 +96,12 @@ data/delphi-compiler-versions.json
 
 - `verDefine` -- canonical `VER###` symbol (primary identifier)
 - `compilerVersion` -- string preserving the exact `CompilerVersion` value (e.g. `"37.0"`)
-- `productName` -- official product name
+- `productName` -- commonly used product name
 - `packageVersion` -- package version identifier (nullable)
 - `regKeyRelativePath` -- relative registry key path beneath HKCU or HKLM (nullable)
 - `supportedBuildSystems` -- build systems supported by this version family; see below
 - `supportedPlatforms` -- target platforms supported by this version family; see below
-- `aliases` -- additional identifiers that resolve to this entry
+- `aliases` -- additional commonly used identifiers that resolve to this entry
 - `notes` -- clarifications, historical remarks, or sub-version platform introductions
 
 Install paths are intentionally excluded from the specification.
@@ -140,15 +129,11 @@ entry's `notes` array.
 Valid platform values: `Win32`, `Win64`, `macOS32`, `macOS64`, `macOSARM64`,
 `Linux64`, `iOS`, `iOSSimulator`, `Android32`, `Android64`.
 
-Only shipping, fully supported targets are included. Experimental or preview support
-(as defined by Embarcadero's own release framing) is excluded.
-
-
 ------------------------------------------------------------------------
 
-## Generated Include Artifact
+## Include File
 
-The file:
+The generated file:
 
     generated/CD_DELPHI_VERSIONS.inc
 
@@ -165,10 +150,6 @@ It emits:
 -   `CD_DELPHI_SUPPORTS_MSBUILD`
 -   `CD_DELPHI_SUPPORTS_PLATFORM_<Platform>` tokens
 
-Capability support is computed using version ranges. Historical edge
-cases (e.g. `VER180` / `VER185` compatibility) are handled explicitly.
-
-
 This include file is:
 
 -   Canonical
@@ -177,15 +158,11 @@ This include file is:
 -   Deterministically generated
 -   Protected by automated tests
 
-The JSON dataset is the single source of truth. The include file is a
-derived artifact.
-
-
 ------------------------------------------------------------------------
 
-## Generated Pascal Unit Artifact
+## Pascal Unit
 
-The file:
+The generated file:
 
     generated/DelphiCompilerVersions.pas
 
@@ -213,15 +190,14 @@ It provides:
     `TryGetDelphiVersionByAlias` -- lookup functions
 
 The generated unit is intentionally written using a conservative subset
-of Object Pascal: `var` parameters are used instead of `out`, `Exit`
-is used without a return value expression, `uses` items are scoped based
-on a `$IFDEF UNICODE` for utilizing unit scoped names, and functionality is
-exposed through simple procedures and functions rather than static classes.
-These choices are deliberate and help keep the generated unit broadly usable
-across the full historical range of Delphi versions. (Delphi 2+)
+of Object Pascal:
+- `var` parameters are used instead of `out`
+- `Exit` is used without a return value expression
+- `uses` items leverage `$IFDEF UNICODE` for implementing unit scoped names
+- functionality is exposed through simple procedures and functions rather than
+  static classes.
 
-Historical edge cases (e.g. `VER180` / `VER185` compatibility) are
-handled explicitly in the `initialization` section.
+These choices are deliberate to be able to use this unit from Delphi 2+
 
 This Pascal unit is:
 
@@ -230,9 +206,6 @@ This Pascal unit is:
 -   MIT-licensed
 -   Deterministically generated
 -   Protected by automated tests
-
-The JSON dataset is the single source of truth. The Pascal unit is a
-derived artifact.
 
 ------------------------------------------------------------------------
 
@@ -249,9 +222,6 @@ generated artifact. Both share the same properties:
 -   Safe to run in CI
 -   No manual editing of the generated files required
 
-If the dataset or a generator changes, the corresponding generated file
-must be regenerated.
-
 ------------------------------------------------------------------------
 
 ## Automated Protection
@@ -262,16 +232,8 @@ The test suite ensures:
 -   Historical compatibility is preserved (including `VER180`/`VER185`)
 -   Capability ranges are computed correctly
 -   CRLF line endings on all generated files
--   UTF-8 encoding without BOM
--   ASCII-only content (Delphi 2 has no Unicode support)
--   No drift between JSON + generators and committed generated files
-    (golden-file tests for both artifacts)
-
-If either generated file becomes stale, tests fail and instruct the
-developer to regenerate it.
-
-This guarantees that all published generated artifacts always reflect the
-canonical dataset.
+-   ASCII-only content (UTF-8 encoding without BOM)
+-   golden-file tests for both artifacts to prevent drift
 
 ------------------------------------------------------------------------
 

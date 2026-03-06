@@ -1,6 +1,5 @@
-# Delphi Compiler Versions vX.Y.Z
-
 **Tag:** `vX.Y.Z`
+
 Source repo: https://github.com/continuous-delphi/delphi-compiler-versions
 
 **Direct downloads:**
@@ -24,24 +23,6 @@ https://continuous-delphi.github.io/delphi-compiler-versions/schemas/1.0.0/delph
 
 ---
 
-# Changes
-
-### Dataset updates
-
-- Added support for Delphi XX (VERXXX)
-- Added aliases for Delphi XX
-- Corrected registry path for Delphi XX
-- Minor metadata corrections
-
-### Generator updates (if any)
-
-Only present when a generator change affected the generated artifacts.
-
-- Improved compatibility for older Delphi compilers
-- Output stability improvements
-
----
-
 # Artifacts
 
 The following files are attached to this release.
@@ -51,19 +32,6 @@ The following files are attached to this release.
 | `CD_DELPHI_VERSIONS.inc` | Conditional defines for Delphi compiler detection |
 | `DelphiCompilerVersions.pas` | Runtime lookup unit for Delphi compiler information |
 | `delphi-compiler-versions.json` | Canonical dataset used by generators and tools |
-
-All generated Delphi artifacts use:
-
-- **CRLF line endings**
-- **ASCII-only content**
-- **UTF-8 without BOM**
-
-This ensures compatibility from **Delphi 2 through modern Delphi versions**.
-In the .PAS we intentionally use
-  `var` instead of `out`
-
-
-You can download the artifacts directly from the Assets section of this release.
 
 ---
 
