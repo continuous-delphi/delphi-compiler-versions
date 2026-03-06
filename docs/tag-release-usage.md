@@ -8,11 +8,12 @@ Located at `tools/tag-release.ps1`.
 Before running the script, ensure:
 
 - [ ] All changes have been committed to the default branch and pushed to origin
-- [ ] Both artifacts regenerated if data or generator changed:
+- [ ] All artifacts regenerated if data or generators changed:
 
   ```powershell
   pwsh tools/generate-cd-delphi-versions-inc.ps1 -Force
   pwsh tools/generate-cd-delphi-compiler-versions-pas.ps1 -Force
+  pwsh tools/generate-platform-support-md.ps1 -Force
   ```
 
 - [ ] All 60 tests pass: `pwsh tests/run-tests.ps1`

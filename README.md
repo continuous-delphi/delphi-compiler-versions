@@ -38,6 +38,7 @@ tooling derive from that dataset.
     generated/                               # Files generated from delphi-compiler-versions.json
       CD_DELPHI_VERSIONS.inc                 # for: {$IFDEF CD_DELPHI_FLORENCE_OR_LATER}
       DelphiCompilerVersions.pas             # for: TDelphiPlatform, DelphiVersions array...
+      PlatformSupport.md                     # visual platform support matrix
 
     schemas/
       1.0.0/
@@ -47,6 +48,7 @@ tooling derive from that dataset.
     tools/
       generate-cd-delphi-versions-inc.ps1
       generate-cd-delphi-compiler-versions-pas.ps1
+      generate-platform-support-md.ps1
       tag-release.ps1
 
     tests/

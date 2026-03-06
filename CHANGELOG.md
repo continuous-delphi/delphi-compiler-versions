@@ -21,6 +21,17 @@ section here.
 
 ---
 
+## [1.1.0] - 2026-03-05
+
+Platform support matrix
+
+## New tool and generated artifact
+
+- `tools/generate-platform-support-md.ps1` - generates `PlatformSupport.md`
+from the canonical dataset
+- `generated/PlatformSupport.md` - visual cross reference of platform
+support by Delphi version
+
 ## [1.0.0] - 2026-03-05
 
 Initial release.

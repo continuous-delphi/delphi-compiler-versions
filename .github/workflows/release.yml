@@ -37,6 +37,7 @@ jobs:
         run: |
           pwsh tools/generate-cd-delphi-versions-inc.ps1 -Force
           pwsh tools/generate-cd-delphi-compiler-versions-pas.ps1 -Force
+          pwsh tools/generate-platform-support-md.ps1 -Force
 
       - name: Extract version from tag
         run: |
@@ -70,4 +71,5 @@ jobs:
             --notes-file release-notes.md \
             generated/CD_DELPHI_VERSIONS.inc \
             generated/DelphiCompilerVersions.pas \
+            generated/PlatformSupport.md \
             data/delphi-compiler-versions.json
