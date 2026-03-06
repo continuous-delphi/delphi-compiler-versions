@@ -27,8 +27,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Pester
-        run: pwsh -Command "Install-Module Pester -MinimumVersion 5.7.0 -Force -Scope CurrentUser"
+      - name: Install Pester and PSScriptAnalyzer
+        run: |
+          pwsh -Command "Install-Module Pester -MinimumVersion 5.7.0 -Force -Scope CurrentUser"
+          pwsh -Command "Install-Module PSScriptAnalyzer -Force -Scope CurrentUser"
 
       - name: Run tests
         run: pwsh tests/run-tests.ps1
