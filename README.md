@@ -14,20 +14,53 @@ This repository defines the authoritative data model used by Continuous
 Delphi tooling to resolve, normalize, and compare Delphi compiler
 versions.
 
-## Just need the generated files?
+## TL;DR
 
-Most users only need these ready-to-download artifacts:
+### Quick start - download
 
-- `generated/DELPHI_COMPILER_VERSIONS.inc`
-- `generated/DelphiCompilerVersions.pas`
+Most users only need these ready-to-download generated artifacts:
 
-Download directly in [Releases](https://github.com/continuous-delphi/delphi-compiler-versions/releases)
+- `DELPHI_COMPILER_VERSIONS.inc`
+- `DelphiCompilerVersions.pas`
+
+You can download these manually in [Releases](https://github.com/continuous-delphi/delphi-compiler-versions/releases)
+
+For scripted updates use curl:
+
+```bash
+curl -L -O https://github.com/continuous-delphi/delphi-compiler-versions/releases/download/v1.1.0/DELPHI_COMPILER_VERSIONS.inc
+```
+
+or PowerShell:
+
+```powershell
+Invoke-WebRequest -Uri "https://github.com/continuous-delphi/delphi-compiler-versions/releases/download/v1.1.0/DELPHI_COMPILER_VERSIONS.inc" -OutFile "DELPHI_COMPILER_VERSIONS.inc"
+```
+
+### Quick start - submodule
+
+For projects using Git, submodule integration is the recommended
+approach as updates are a single command and the generated files are
+always available without downloading manually.
+
+```bash
+git submodule add https://github.com/continuous-delphi/delphi-compiler-versions \
+  vendor/delphi-compiler-versions
+```
+
+Then add the path for `vendor/delphi-compiler-versions/generated` to your search path.
+The tooling and tests found in the rest of the repository can safely be ignored.
+
+To update to a new version of the generated files:
+```bash
+git submodule update --remote vendor/delphi-compiler-versions
+```
 
 ------------------------------------------------------------------------
 
-## Scope
+## Project Scope
 
--   For Delphi versions 2 and above (starts at `VER90`)
+-   Dataset covers Delphi versions 2 and above (starts at `VER90`)
 -   Excludes C++Builder and .NET-only entries
 -   Includes registry metadata required for toolchain discovery
 -   Includes supported **Build Systems** and **Target Platforms** per version
@@ -63,7 +96,7 @@ tooling derive from that dataset.
     tests/
       pwsh/
 
-    .github/worksflows/release.yml           # automated releases
+    .github/workflows/release.yml           # automated releases
 ```
 
 - The schema is versioned and immutable once published.
@@ -98,7 +131,7 @@ data/delphi-compiler-versions.json
 ### Top-level fields
 
 - `schemaVersion` -- schema contract version (e.g. `"1.0.0"`)
-- `dataVersion` -- dataset content version (e.g. `"0.5.0"`)
+- `dataVersion` -- dataset content version (e.g. `"1.0.0"`)
 - `meta` -- metadata object; see below
 - `versions` -- ordered array of version entries
 
@@ -159,7 +192,6 @@ capability defines derived directly from the canonical dataset.
 
 It emits:
 
--   `CD_DELPHI_VER###` tokens
 -   `CD_DELPHI_<MarketingName>` tokens
 -   `CD_DELPHI_<Version>_OR_LATER` convenience tokens
 -   `CD_DELPHI_COMPILER_VERSION_<major>` tokens
@@ -250,7 +282,7 @@ The test suite ensures:
 -   Capability ranges are computed correctly
 -   CRLF line endings on all generated files
 -   ASCII-only content (UTF-8 encoding without BOM)
--   golden-file tests for both artifacts to prevent drift
+-   Golden-file tests for both artifacts to prevent drift
 
 ------------------------------------------------------------------------
 
