@@ -9,8 +9,8 @@
   --------------------------------------------------------------------------- }
 
 {$DEFINE CD_DELPHI_SCHEMA_1_0_0}
-{$DEFINE CD_DELPHI_DATA_0_5_0}
-{$DEFINE CD_DELPHI_GENERATED_2026_03_01}
+{$DEFINE CD_DELPHI_DATA_1_0_0}
+{$DEFINE CD_DELPHI_GENERATED_2026_03_05}
 
 { ---------------------------------------------------------------------------
   Unknown version detection

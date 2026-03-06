@@ -40,7 +40,7 @@ type
 
 const
   CD_SCHEMA_VERSION = '1.0.0';
-  CD_DATA_VERSION   = '0.5.0';
+  CD_DATA_VERSION   = '1.0.0';
 
   DelphiVersions: array[0..26] of TDelphiVersion =
   (

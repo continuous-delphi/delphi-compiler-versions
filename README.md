@@ -4,7 +4,7 @@
 ![License](https://img.shields.io/github/license/continuous-delphi/delphi-compiler-versions)
 ![Pages](https://img.shields.io/website?url=https%3A%2F%2Fcontinuous-delphi.github.io%2Fdelphi-compiler-versions%2F&label=github%20pages)
 ![Schema](https://img.shields.io/badge/schema-1.0.0-blue)
-![Data](https://img.shields.io/badge/data-0.5.0-blue) ![Continuous
+![Data](https://img.shields.io/badge/data-1.0.0-blue) ![Continuous
 Delphi](https://img.shields.io/badge/org-continuous--delphi-red)
 
 Canonical Delphi compiler version mapping based on official `VER###`

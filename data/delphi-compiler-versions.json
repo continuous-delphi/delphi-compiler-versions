@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0.0",
-  "dataVersion": "0.5.0",
+  "dataVersion": "1.0.0",
   "meta": {
-    "generatedUtcDate": "2026-03-01",
+    "generatedUtcDate": "2026-03-05",
     "scope": {
       "includeFromVer": "VER90",
       "excluded": [
