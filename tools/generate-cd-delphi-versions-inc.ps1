@@ -205,6 +205,8 @@ Emit '{ ------------------------------------------------------------------------
 Emit '  Unknown version detection'
 Emit '  - CD_DELPHI_VERSION_UNKNOWN is defined by default'
 Emit '  - Any recognized VER### block will UNDEF it'
+Emit '  - If still defined after all VER### checks, the forward-compat block'
+Emit '    inherits defines from the latest known version'
 Emit '  --------------------------------------------------------------------------- }'
 Emit
 Emit '{$DEFINE CD_DELPHI_VERSION_UNKNOWN}'
@@ -265,6 +267,50 @@ for ($i=0; $i -lt $versionCount; $i++) {
 
   Emit
 }
+
+# ---------------- Forward compatibility block ----------------
+# If CD_DELPHI_VERSION_UNKNOWN is still defined after all VER### checks, the
+# compiler is a version newer than this file knows about.  We inherit the
+# defines of the latest known version so that code written for that version
+# continues to compile.  CD_DELPHI_VERSION_UNKNOWN is intentionally left
+# defined so callers can detect the fallback if needed.
+
+$last = $versions[$versionCount - 1]
+
+$lastVerDefine       = [string]$last.verDefine
+$lastDigits          = Get-VerDigits $lastVerDefine
+$lastCompilerVersion = [string]$last.compilerVersion
+$lastProductName     = [string]$last.productName
+$lastPackageVersion  = $last.packageVersion
+$lastCvMajor         = Get-CompilerVersionMajor $lastCompilerVersion
+$lastPkgTok          = Get-PackageVersionToken $lastPackageVersion
+$lastTokens          = @(Get-DefinesForProductName $lastProductName)
+
+Emit '{ ---------------------------------------------------------------------------'
+Emit '  Forward compatibility'
+Emit ('  Compiler not recognised -- inheriting defines of ' + $lastProductName + ' (' + $lastVerDefine + ')')
+Emit '  CD_DELPHI_VERSION_UNKNOWN remains defined so callers can detect the fallback.'
+Emit '  --------------------------------------------------------------------------- }'
+Emit
+Emit '{$IFDEF CD_DELPHI_VERSION_UNKNOWN}'
+
+Emit ('  {$DEFINE CD_DELPHI_VER' + $lastDigits + '}')
+
+foreach ($tok in $lastTokens) {
+  Emit ('  {$DEFINE CD_DELPHI_' + $tok + '}')
+  Emit ('  {$DEFINE CD_DELPHI_' + $tok + '_OR_LATER}')
+}
+
+if ($lastCvMajor) {
+  Emit ('  {$DEFINE CD_DELPHI_COMPILER_VERSION_' + $lastCvMajor + '}')
+}
+
+if ($lastPkgTok) {
+  Emit ('  {$DEFINE CD_DELPHI_PACKAGE_VERSION_' + $lastPkgTok + '}')
+}
+
+Emit '{$ENDIF}'
+Emit
 
 # ---------------- Capabilities section (range guarded, optimistic for open-ended) ----------------
 

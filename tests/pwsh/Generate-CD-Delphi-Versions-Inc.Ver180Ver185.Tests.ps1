@@ -61,15 +61,16 @@ Describe 'CD_DELPHI_VERSIONS.inc generator (VER180/VER185 compatibility)' {
 
   It 'emits both compiler version 18 defines (shared major)' {
 
-    # Both should produce CD_DELPHI_COMPILER_VERSION_18
-    # It should appear twice (once per block)
+    # Both VER180 and VER185 produce CD_DELPHI_COMPILER_VERSION_18 (once per block),
+    # and the forward-compat block repeats the last known version's defines (VER185),
+    # adding a third occurrence.
 
     $matches = [regex]::Matches(
       $script:OutText,
       '\{\$DEFINE CD_DELPHI_COMPILER_VERSION_18\}'
     )
 
-    $matches.Count | Should -Be 2
+    $matches.Count | Should -Be 3
   }
 
   AfterAll {

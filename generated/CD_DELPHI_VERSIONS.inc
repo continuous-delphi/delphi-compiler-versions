@@ -16,6 +16,8 @@
   Unknown version detection
   - CD_DELPHI_VERSION_UNKNOWN is defined by default
   - Any recognized VER### block will UNDEF it
+  - If still defined after all VER### checks, the forward-compat block
+    inherits defines from the latest known version
   --------------------------------------------------------------------------- }
 
 {$DEFINE CD_DELPHI_VERSION_UNKNOWN}
@@ -303,6 +305,22 @@
 { VER370 - Delphi 13 Florence - CompilerVersion 37.0 }
 {$IFDEF VER370}
   {$UNDEF CD_DELPHI_VERSION_UNKNOWN}
+  {$DEFINE CD_DELPHI_VER370}
+  {$DEFINE CD_DELPHI_13}
+  {$DEFINE CD_DELPHI_13_OR_LATER}
+  {$DEFINE CD_DELPHI_FLORENCE}
+  {$DEFINE CD_DELPHI_FLORENCE_OR_LATER}
+  {$DEFINE CD_DELPHI_COMPILER_VERSION_37}
+  {$DEFINE CD_DELPHI_PACKAGE_VERSION_370}
+{$ENDIF}
+
+{ ---------------------------------------------------------------------------
+  Forward compatibility
+  Compiler not recognised -- inheriting defines of Delphi 13 Florence (VER370)
+  CD_DELPHI_VERSION_UNKNOWN remains defined so callers can detect the fallback.
+  --------------------------------------------------------------------------- }
+
+{$IFDEF CD_DELPHI_VERSION_UNKNOWN}
   {$DEFINE CD_DELPHI_VER370}
   {$DEFINE CD_DELPHI_13}
   {$DEFINE CD_DELPHI_13_OR_LATER}
