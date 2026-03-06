@@ -11,7 +11,7 @@ Before running the script, ensure:
 - [ ] All artifacts regenerated if data or generators changed:
 
   ```powershell
-  pwsh tools/generate-cd-delphi-versions-inc.ps1 -Force
+  pwsh tools/generate-delphi-compiler-versions-inc.ps1 -Force
   pwsh tools/generate-delphi-compiler-versions-pas.ps1 -Force
   pwsh tools/generate-platform-support-md.ps1 -Force
   ```

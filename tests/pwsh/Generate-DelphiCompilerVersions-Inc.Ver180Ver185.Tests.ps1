@@ -1,4 +1,4 @@
-# tests/pwsh/Generate-CD-Delphi-Versions-Inc.Ver180Ver185.Tests.ps1
+# tests/pwsh/Generate-DelphiCompilerVersions-Inc.Ver180Ver185.Tests.ps1
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -8,7 +8,7 @@ Describe 'DELPHI_COMPILER_VERSIONS.inc generator (VER180/VER185 compatibility)' 
   BeforeAll {
     $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 
-    $genPath  = Join-Path $repoRoot 'tools\generate-cd-delphi-versions-inc.ps1'
+    $genPath  = Join-Path $repoRoot 'tools\generate-delphi-compiler-versions-inc.ps1'
     $dataPath = Join-Path $repoRoot 'tests\pwsh\fixtures\delphi-compiler-versions.ver180-ver185.json'
 
     if (-not (Test-Path -LiteralPath $genPath))  { throw "Generator not found: $genPath" }

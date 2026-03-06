@@ -1,4 +1,4 @@
-# tests/pwsh/Generate-CD-Delphi-Versions-Inc.GoldenFile.Tests.ps1
+# tests/pwsh/Generate-DelphiCompilerVersions-Inc.GoldenFile.Tests.ps1
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -9,9 +9,9 @@ Describe 'DELPHI_COMPILER_VERSIONS.inc golden file consistency' {
 
     $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 
-    $genPath  = Join-Path $repoRoot 'tools\generate-cd-delphi-versions-inc.ps1'
+    $genPath  = Join-Path $repoRoot 'tools\generate-delphi-compiler-versions-inc.ps1'
     $dataPath = Join-Path $repoRoot 'data\delphi-compiler-versions.json'
-    $incPath  = Join-Path $repoRoot 'generated\DELPHI_COMPILER_VERSIONSinc'
+    $incPath  = Join-Path $repoRoot 'generated\DELPHI_COMPILER_VERSIONS.inc'
 
     if (-not (Test-Path -LiteralPath $genPath))  { throw "Generator not found: $genPath" }
     if (-not (Test-Path -LiteralPath $dataPath)) { throw "Canonical JSON not found: $dataPath" }
@@ -48,7 +48,7 @@ Describe 'DELPHI_COMPILER_VERSIONS.inc golden file consistency' {
 generated/DELPHI_COMPILER_VERSIONS.inc is out of date.
 
 Run:
-  pwsh tools/generate-cd-delphi-versions-inc.ps1
+  pwsh tools/generate-delphi-compiler-versions-inc.ps1
 
 Then commit the updated include file.
 "@

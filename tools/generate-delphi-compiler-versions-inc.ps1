@@ -1,4 +1,4 @@
-# tools/generate-cd-delphi-versions-inc.ps1
+# tools/generate-delphi-compiler-versions-inc.ps1
 # Generates: generated/DELPHI_COMPILER_VERSIONS.inc
 # Requires: PowerShell 7+
 

@@ -66,7 +66,7 @@ compiler information
 
 ### Tools
 
-- `tools/generate-cd-delphi-versions-inc.ps1` - generates `DELPHI_COMPILER_VERSIONS.inc`
+- `tools/generate-delphi-compiler-versions-inc.ps1` - generates `DELPHI_COMPILER_VERSIONS.inc`
 from the canonical dataset
 - `tools/generate-delphi-compiler-versions-pas.ps1` - generates
 `DelphiCompilerVersions.pas` from the canonical dataset

@@ -46,7 +46,7 @@ tooling derive from that dataset.
       delphi-compiler-versions.schema.json   # latest version / stable alias
 
     tools/
-      generate-cd-delphi-versions-inc.ps1
+      generate-delphi-compiler-versions-inc.ps1
       generate-delphi-compiler-versions-pas.ps1
       generate-platform-support-md.ps1
       tag-release.ps1
@@ -219,7 +219,7 @@ This Pascal unit is:
 
 ## Generators
 
-    tools/generate-cd-delphi-versions-inc.ps1
+    tools/generate-delphi-compiler-versions-inc.ps1
     tools/generate-delphi-compiler-versions-pas.ps1
 
 Each generator transforms the canonical dataset into its respective
