@@ -123,4 +123,43 @@ Describe 'CD_DELPHI_VERSIONS.inc generator' {
   }
 }
 
+Describe 'delphi-compiler-versions.json data integrity' {
 
+  BeforeAll {
+    $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+    $dataPath = Join-Path $repoRoot 'data\delphi-compiler-versions.json'
+
+    if (-not (Test-Path -LiteralPath $dataPath)) { throw "Canonical JSON not found: $dataPath" }
+
+    $script:Data = Get-Content -LiteralPath $dataPath -Raw -Encoding UTF8 | ConvertFrom-Json
+  }
+
+  It 'aliases are unique across all versions' {
+    # An alias appearing on more than one version entry would cause silent
+    # misbehaviour in any consumer performing alias lookup -- e.g. "D11" should
+    # resolve to exactly one verDefine and not be ambiguous with a version whose
+    # ordinal position happens to also be 11.
+
+    $seen       = @{}
+    $duplicates = [System.Collections.Generic.List[string]]::new()
+
+    foreach ($version in $script:Data.versions) {
+      foreach ($alias in @($version.aliases)) {
+        $alias = [string]$alias
+        if ([string]::IsNullOrWhiteSpace($alias)) { continue }
+
+        if ($seen.ContainsKey($alias)) {
+          $duplicates.Add(
+            "'$alias' appears on both $($seen[$alias]) and $($version.verDefine)"
+          )
+        } else {
+          $seen[$alias] = $version.verDefine
+        }
+      }
+    }
+
+    $duplicates | Should -BeNullOrEmpty -Because (
+      "duplicate aliases cause ambiguous lookups:`n" + ($duplicates -join "`n")
+    )
+  }
+}
