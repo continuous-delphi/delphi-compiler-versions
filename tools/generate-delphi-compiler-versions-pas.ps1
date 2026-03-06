@@ -520,12 +520,12 @@ $newText = $newText -replace "`n",   "`r`n"
 if ((-not $Force) -and (Test-Path -LiteralPath $OutPath)) {
   $existing = Get-Content -LiteralPath $OutPath -Raw -Encoding UTF8
   if ($existing -eq $newText) {
-    Write-Host "No changes: $OutPath"
+    Write-Output "No changes: $OutPath"
     exit 0
   }
 }
 
 Write-TextFileUtf8NoBom -Path $OutPath -Text $newText
 
-Write-Host "Wrote: $OutPath"
-Write-Host ('SchemaVersion: ' + $data.schemaVersion + '  DataVersion: ' + $data.dataVersion)
+Write-Output "Wrote: $OutPath"
+Write-Output ('SchemaVersion: ' + $data.schemaVersion + '  DataVersion: ' + $data.dataVersion)

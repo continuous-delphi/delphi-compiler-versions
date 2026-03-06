@@ -16,7 +16,7 @@ Before running the script, ensure:
   pwsh tools/generate-platform-support-md.ps1 -Force
   ```
 
-- [ ] All 61 tests pass: `pwsh tests/run-tests.ps1`
+- [ ] All xxx tests pass: `pwsh tests/run-tests.ps1`
 - [ ] `CHANGELOG.md` has an entry for `vX.Y.Z`
 
 Then:

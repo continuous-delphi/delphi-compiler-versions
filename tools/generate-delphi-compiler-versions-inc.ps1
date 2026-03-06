@@ -277,7 +277,6 @@ for ($i=0; $i -lt $versionCount; $i++) {
 $last = $versions[$versionCount - 1]
 
 $lastVerDefine       = [string]$last.verDefine
-$lastDigits          = Get-VerDigits $lastVerDefine
 $lastCompilerVersion = [string]$last.compilerVersion
 $lastProductName     = [string]$last.productName
 $lastPackageVersion  = $last.packageVersion
@@ -430,7 +429,7 @@ $newText = $newText -replace "`n", "`r`n"
 if ((-not $Force) -and (Test-Path -LiteralPath $OutPath)) {
   $existing = Get-Content -LiteralPath $OutPath -Raw -Encoding UTF8
   if ($existing -eq $newText) {
-    Write-Host "No changes: $OutPath"
+    Write-Output "No changes: $OutPath"
     exit 0
   }
 }
@@ -439,5 +438,5 @@ if ((-not $Force) -and (Test-Path -LiteralPath $OutPath)) {
 $Utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 [System.IO.File]::WriteAllText($OutPath, $newText, $Utf8NoBom)
 
-Write-Host "Wrote: $OutPath"
-Write-Host ('SchemaVersion: ' + $data.schemaVersion + '  DataVersion: ' + $data.dataVersion)
+Write-Output "Wrote: $OutPath"
+Write-Output ('SchemaVersion: ' + $data.schemaVersion + '  DataVersion: ' + $data.dataVersion)
