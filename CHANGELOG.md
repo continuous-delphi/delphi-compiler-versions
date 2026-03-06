@@ -21,7 +21,7 @@ section here.
 
 ---
 
-## [1.2.0] - Unreleased
+## [1.2.0] - 2026-03-07
 
 ### .PAS generated file fix
 
