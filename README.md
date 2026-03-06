@@ -32,28 +32,34 @@ tooling derive from that dataset.
 ## Repository Structure
 
 ```text
+    data/
+      delphi-compiler-versions.json          # current dataset (Delphi 2+)
+
+    generated/                               # Files generated from delphi-compiler-versions.json
+      CD_DELPHI_VERSIONS.inc                 # for: {$IFDEF CD_DELPHI_FLORENCE_OR_LATER}
+      DelphiCompilerVersions.pas             # for: TDelphiPlatform, DelphiVersions array...
+
     schemas/
       1.0.0/
-        delphi-compiler-versions.schema.json    # immutable versioned schema
-      delphi-compiler-versions.schema.json      # latest version / stable alias
-    data/
-      delphi-compiler-versions.json             # current dataset
+        delphi-compiler-versions.schema.json # immutable versioned schema
+      delphi-compiler-versions.schema.json   # latest version / stable alias
 
     tools/
       generate-cd-delphi-versions-inc.ps1
       generate-cd-delphi-compiler-versions-pas.ps1
-
-    generated/
-      CD_DELPHI_VERSIONS.inc                    # Delphi 2+ compatibility
-      DelphiCompilerVersions.pas                # Delphi 2+ compatibility
+      tag-release.ps1
 
     tests/
       pwsh/
+
+    .github/worksflows/release.yml           # automated releases
 ```
 
--   The schema is versioned and immutable once published.
--   The generated include file and source file are generated and never manually edited.
--   Tests enforce deterministic output and drift protection.
+- The schema is versioned and immutable once published.
+- The generated include file and source file are generated and _never manually edited_.
+- Tests enforce deterministic output and drift protection.
+- GitHub Action workflow enforces passing tests, regenerates artifacts, and populates
+release notes from `CHANGELOG.md`
 
 Canonical schema `$id`:
 
