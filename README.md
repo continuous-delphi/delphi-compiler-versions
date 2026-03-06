@@ -47,7 +47,7 @@ tooling derive from that dataset.
 
     tools/
       generate-cd-delphi-versions-inc.ps1
-      generate-cd-delphi-compiler-versions-pas.ps1
+      generate-delphi-compiler-versions-pas.ps1
       generate-platform-support-md.ps1
       tag-release.ps1
 
@@ -220,7 +220,7 @@ This Pascal unit is:
 ## Generators
 
     tools/generate-cd-delphi-versions-inc.ps1
-    tools/generate-cd-delphi-compiler-versions-pas.ps1
+    tools/generate-delphi-compiler-versions-pas.ps1
 
 Each generator transforms the canonical dataset into its respective
 generated artifact. Both share the same properties:

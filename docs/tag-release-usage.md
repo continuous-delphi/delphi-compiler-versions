@@ -12,7 +12,7 @@ Before running the script, ensure:
 
   ```powershell
   pwsh tools/generate-cd-delphi-versions-inc.ps1 -Force
-  pwsh tools/generate-cd-delphi-compiler-versions-pas.ps1 -Force
+  pwsh tools/generate-delphi-compiler-versions-pas.ps1 -Force
   pwsh tools/generate-platform-support-md.ps1 -Force
   ```
 

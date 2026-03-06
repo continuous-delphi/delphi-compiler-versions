@@ -3,7 +3,7 @@
 # NOTE: This test will fail in a clean checkout until the generated file has
 # been committed. Run the following command then commit the result:
 #
-#   pwsh tools/generate-cd-delphi-compiler-versions-pas.ps1
+#   pwsh tools/generate-delphi-compiler-versions-pas.ps1
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -14,7 +14,7 @@ Describe 'DelphiCompilerVersions.pas golden file consistency' {
 
     $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 
-    $genPath  = Join-Path $repoRoot 'tools\generate-cd-delphi-compiler-versions-pas.ps1'
+    $genPath  = Join-Path $repoRoot 'tools\generate-delphi-compiler-versions-pas.ps1'
     $dataPath = Join-Path $repoRoot 'data\delphi-compiler-versions.json'
     $pasPath  = Join-Path $repoRoot 'generated\DelphiCompilerVersions.pas'
 
@@ -53,7 +53,7 @@ Describe 'DelphiCompilerVersions.pas golden file consistency' {
 generated/DelphiCompilerVersions.pas is out of date.
 
 Run:
-  pwsh tools/generate-cd-delphi-compiler-versions-pas.ps1
+  pwsh tools/generate-delphi-compiler-versions-pas.ps1
 
 Then commit the updated pas file.
 "@

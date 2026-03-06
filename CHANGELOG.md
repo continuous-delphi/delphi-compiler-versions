@@ -68,7 +68,7 @@ compiler information
 
 - `tools/generate-cd-delphi-versions-inc.ps1` - generates `DELPHI_COMPILER_VERSIONS.inc`
 from the canonical dataset
-- `tools/generate-cd-delphi-compiler-versions-pas.ps1` - generates
+- `tools/generate-delphi-compiler-versions-pas.ps1` - generates
 `DelphiCompilerVersions.pas` from the canonical dataset
 - `tools/tag-release.ps1` - validates preconditions and creates an annotated
 release tag

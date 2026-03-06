@@ -8,7 +8,7 @@ Describe 'DelphiCompilerVersions.pas generator' {
   BeforeAll {
     $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 
-    $script:GenPath  = Join-Path $repoRoot 'tools\generate-cd-delphi-compiler-versions-pas.ps1'
+    $script:GenPath  = Join-Path $repoRoot 'tools\generate-delphi-compiler-versions-pas.ps1'
     $script:DataPath = Join-Path $repoRoot 'tests\pwsh\fixtures\delphi-compiler-versions.pas-min.json'
 
     if (-not (Test-Path -LiteralPath $script:GenPath))  { throw "Generator not found: $script:GenPath" }

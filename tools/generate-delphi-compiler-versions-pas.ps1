@@ -1,4 +1,4 @@
-# tools/generate-cd-delphi-compiler-versions-pas.ps1
+# tools/generate-delphi-compiler-versions-pas.ps1
 # Generates: generated/DelphiCompilerVersions.pas
 # Requires: PowerShell 7+
 #
