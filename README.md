@@ -14,6 +14,15 @@ This repository defines the authoritative data model used by Continuous
 Delphi tooling to resolve, normalize, and compare Delphi compiler
 versions.
 
+## Just need the generated files?
+
+Most users only need these ready-to-download artifacts:
+
+- `generated/DELPHI_COMPILER_VERSIONS.inc`
+- `generated/DelphiCompilerVersions.pas`
+
+Download directly in [Releases](https://github.com/continuous-delphi/delphi-compiler-versions/releases)
+
 ------------------------------------------------------------------------
 
 ## Scope
