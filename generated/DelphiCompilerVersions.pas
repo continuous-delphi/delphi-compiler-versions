@@ -380,7 +380,6 @@ begin
   Result := False;
   if (ACsv = '') or (AToken = '') then
   begin
-    Result := False;
     Exit;
   end;
 
