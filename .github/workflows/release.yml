@@ -33,7 +33,7 @@ jobs:
           pwsh -Command "Install-Module PSScriptAnalyzer -Force -Scope CurrentUser"
 
       - name: Run tests
-        run: pwsh tests/run-tests.ps1
+        run: pwsh -NoProfile -File tests/run-tests.ps1
 
       - name: Regenerate artifacts
         run: |
