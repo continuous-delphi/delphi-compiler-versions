@@ -1,11 +1,10 @@
 # delphi-compiler-versions
 
+[![CI](https://github.com/continuous-delphi/delphi-compiler-versions/actions/workflows/ci.yml/badge.svg)](https://github.com/continuous-delphi/delphi-compiler-versions/actions/workflows/ci.yml)
 ![Status](https://img.shields.io/badge/status-incubator-orange)
+[![GitHub Release](https://img.shields.io/github/v/release/continuous-delphi/delphi-compiler-versions?display_name=release)](https://github.com/continuous-delphi/delphi-compiler-versions/releases)
 ![License](https://img.shields.io/github/license/continuous-delphi/delphi-compiler-versions)
-![Pages](https://img.shields.io/website?url=https%3A%2F%2Fcontinuous-delphi.github.io%2Fdelphi-compiler-versions%2F&label=github%20pages)
-![Schema](https://img.shields.io/badge/schema-1.0.0-blue)
-![Data](https://img.shields.io/badge/data-1.0.0-blue) ![Continuous
-Delphi](https://img.shields.io/badge/org-continuous--delphi-red)
+![Continuous Delphi](https://img.shields.io/badge/org-continuous--delphi-red)
 
 Canonical Delphi compiler version mapping based on official `VER###`
 symbols.
