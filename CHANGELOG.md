@@ -20,6 +20,12 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+## [1.3.0] - 2026-03-15
+
+- Corrected iOS+iOSSimulator platforms, will now have iOS32 + iOS64 and
+iOSSimulator32 + iOSSimulator64 platforms
+
+- `ci` workflow to trigger on all branches
 
 ## [1.2.0] - 2026-03-07
 
