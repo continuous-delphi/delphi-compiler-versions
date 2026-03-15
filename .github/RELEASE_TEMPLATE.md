@@ -1,6 +1,8 @@
-**Tag:** `vX.Y.Z`
+![delphi-compiler-versions logo](https://continuous-delphi.github.io/assets/logos/delphi-compiler-versions-480x270.png)
 
-Source repo: https://github.com/continuous-delphi/delphi-compiler-versions
+https://github.com/continuous-delphi/delphi-compiler-versions
+
+**Tag:** `vX.Y.Z`
 
 **Direct downloads:**
 - [DELPHI_COMPILER_VERSIONS.inc](https://github.com/continuous-delphi/delphi-compiler-versions/releases/download/vX.Y.Z/DELPHI_COMPILER_VERSIONS.inc)
@@ -16,11 +18,6 @@ and the generated artifacts used by Delphi projects and tooling.
 - **Release:** vX.Y.Z
 - **dataVersion:** DATA_VERSION
 - **schemaVersion:** SCHEMA_VERSION
-
-Canonical JSON schema (versioned, immutable):
-
-https://continuous-delphi.github.io/delphi-compiler-versions/schemas/1.0.0/delphi-compiler-versions.schema.json
-
 
 ---
 
@@ -82,18 +79,4 @@ Example (selected fields shown):
   "compilerVersion": "36.0"
 }
 ```
-
 ---
-
-# Notes
-
-- The JSON schema is published via **GitHub Pages** and is not duplicated as a release asset.
-- Source files, tests, and generators are included in the repository source archive.
-
----
-
-# Continuous Delphi
-
-Part of the **Continuous Delphi** initiative:
-
-https://github.com/continuous-delphi

@@ -108,3 +108,9 @@ release tag
 publishes a GitHub release on push of a `v*` tag
 - `.github/RELEASE_TEMPLATE.md` - release notes template populated by the
 release workflow
+
+## `Delphi-Compiler-Versions` - The authoritative Delphi versions reference from Continuous Delphi
+
+![continuous-delphi logo](https://continuous-delphi.github.io/assets/logos/continuous-delphi-480x270.png)
+
+https://github.com/continuous-delphi
