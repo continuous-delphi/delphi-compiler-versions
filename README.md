@@ -1,5 +1,7 @@
 # delphi-compiler-versions
 
+![delphi-compiler-versions logo](https://github.com/continuous-delphi/.github/blob/main/profile/delphi-compiler-versions-480x270.png?raw=true)
+
 [![CI](https://github.com/continuous-delphi/delphi-compiler-versions/actions/workflows/ci.yml/badge.svg)](https://github.com/continuous-delphi/delphi-compiler-versions/actions/workflows/ci.yml)
 ![Status](https://img.shields.io/badge/status-incubator-orange)
 [![GitHub Release](https://img.shields.io/github/v/release/continuous-delphi/delphi-compiler-versions?display_name=release)](https://github.com/continuous-delphi/delphi-compiler-versions/releases)
