@@ -178,7 +178,7 @@
       "supportedPlatforms": ["Win32", "Win64", "macOS32"],
       "aliases": ["DelphiXE2", "XE2"],
       "notes": [
-        "First version to support Win64, and macOS 32-bit targets (experimental iOS not included)",
+        "First version to support Win64, and macOS 32-bit targets (experimental iOS32 not included)",
         "DocWiki notes FireMonkey package versions 160/161 for XE2 updates; packageVersion here reflects the main table value."
       ]
     },
@@ -191,7 +191,7 @@
       "supportedBuildSystems": ["DCC", "MSBuild"],
       "supportedPlatforms": ["Win32", "Win64", "macOS32"],
       "aliases": ["DelphiXE3", "XE3"],
-      "notes": ["Experimental iOS support not included in supportedPlatforms"]
+      "notes": ["Experimental iOS32 support not included in supportedPlatforms"]
     },
     {
       "verDefine": "VER250",
@@ -200,7 +200,7 @@
       "packageVersion": "180",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\11.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS32", "iOS"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS32", "iOS32", "iOSSimulator32"],
       "aliases": ["DelphiXE4", "XE4"],
       "notes": [
         "First version to support full iOS device/simulator/App Store deployment (experimental Android not included)."
@@ -213,7 +213,7 @@
       "packageVersion": "190",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\12.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS32", "iOS", "Android32"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS32", "iOS32", "iOSSimulator32", "Android32"],
       "aliases": ["DelphiXE5", "XE5"],
       "notes": ["First version to support Android 32-bit"]
     },
@@ -224,7 +224,7 @@
       "packageVersion": "200",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\14.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS32", "iOS", "Android32"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS32", "iOS32", "iOSSimulator32", "Android32"],
       "aliases": ["DelphiXE6", "XE6"],
       "notes": [
         "Product version jumps from 12.0 to 14.0 in the DocWiki table (skip 'unlucky 13')."
@@ -237,7 +237,7 @@
       "packageVersion": "210",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\15.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS32", "iOS", "Android32"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS32", "iOS32", "iOSSimulator32", "Android32"],
       "aliases": ["DelphiXE7", "XE7"],
       "notes": []
     },
@@ -248,7 +248,7 @@
       "packageVersion": "220",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\16.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS32", "macOS64", "iOS", "Android32"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS32", "macOS64", "iOS32", "iOSSimulator32", "Android32"],
       "aliases": ["DelphiXE8", "XE8"],
       "notes": [
         "First version to support macOS 64-bit (Intel)."
@@ -261,7 +261,7 @@
       "packageVersion": "230",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\17.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS32", "macOS64", "iOS", "Android32"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS32", "macOS64", "iOS32", "iOSSimulator32", "iOS64", "Android32"],
       "aliases": ["Delphi 10", "Seattle", "10 Seattle"],
       "notes": []
     },
@@ -272,7 +272,7 @@
       "packageVersion": "240",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\18.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS32", "macOS64", "iOS", "Android32"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS32", "macOS64", "iOS32", "iOSSimulator32", "iOS64", "Android32"],
       "aliases": ["Delphi 10.1", "Berlin", "10.1 Berlin"],
       "notes": []
     },
@@ -283,7 +283,7 @@
       "packageVersion": "250",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\19.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS32", "macOS64", "iOS", "Android32", "Linux64"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS32", "macOS64", "iOS32", "iOSSimulator32", "iOS64", "Android32", "Linux64"],
       "aliases": ["Delphi 10.2", "Tokyo", "10.2 Tokyo"],
       "notes": [
         "First version to support Linux 64-bit."
@@ -296,13 +296,12 @@
       "packageVersion": "260",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\20.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS64", "iOSSimulator", "iOS", "Android32", "Android64", "Linux64"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS64", "iOS32", "iOSSimulator32", "iOS64", "Android32", "Android64", "Linux64"],
       "aliases": ["Delphi 10.3", "Rio", "10.3 Rio"],
       "notes": [
         "macOS 32-bit dropped in this version family (Catalina removed 32-bit app support at the OS level).",
         "macOS 64-bit (Intel) added in 10.3 Update 2 (point release); 10.3.0 and 10.3.1 do not include macOS 64-bit.",
-        "Android 64-bit added in 10.3 Update 3 (point release); earlier 10.3.x releases do not include Android 64-bit.",
-        "iOS Simulator introduced as a separate target in this version family."
+        "Android 64-bit added in 10.3 Update 3 (point release); earlier 10.3.x releases do not include Android 64-bit."
       ]
     },
     {
@@ -312,9 +311,9 @@
       "packageVersion": "270",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\21.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS64", "iOSSimulator", "iOS", "Android32", "Android64", "Linux64"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS64", "iOS32", "iOS64", "Android32", "Android64", "Linux64"],
       "aliases": ["Delphi 10.4", "Sydney", "10.4 Sydney"],
-      "notes": []
+      "notes": ["Apple removed 32-bit simulator support from Xcode, effectively killing iOSSimulator32"]
     },
     {
       "verDefine": "VER350",
@@ -323,10 +322,11 @@
       "packageVersion": "280",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\22.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOSSimulator", "iOS", "Android32", "Android64", "Linux64"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOS32", "iOS64", "iOSSimulator64", "Android32", "Android64", "Linux64"],
       "aliases": ["Delphi 11", "Alexandria", "11 Alexandria"],
       "notes": [
-        "First version to support macOS ARM64 (Apple Silicon)."
+        "First version to support macOS ARM64 (Apple Silicon).",
+        "11.2 added iOS Simulator ARM 64-bit"
       ]
     },
     {
@@ -336,7 +336,7 @@
       "packageVersion": "290",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\23.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOSSimulator", "iOS", "Android32", "Android64", "Linux64"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOS64", "iOSSimulator64", "Android32", "Android64", "Linux64"],
       "aliases": ["Delphi 12", "Athens", "12 Athens"],
       "notes": []
     },
@@ -347,7 +347,7 @@
       "packageVersion": "370",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\37.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOSSimulator", "iOS", "Android32", "Android64", "Linux64"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOS64", "iOSSimulator64", "Android32", "Android64", "Linux64"],
       "aliases": ["Delphi 13", "Florence", "13 Florence"],
       "notes": [
         "RAD Studio 13 unifies internal version numbers to 37 (registry, RTL, packages)."

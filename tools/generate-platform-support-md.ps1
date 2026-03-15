@@ -86,7 +86,8 @@ $versionCount = $versions.Count
 $platformOrder = @(
   'Win32', 'Win64',
   'macOS32', 'macOS64', 'macOSARM64',
-  'iOS', 'iOSSimulator',
+  'iOS32', 'iOSSimulator32',
+  'iOS64', 'iOSSimulator64',
   'Android32', 'Android64',
   'Linux64'
 )

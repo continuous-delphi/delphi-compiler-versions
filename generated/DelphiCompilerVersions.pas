@@ -6,8 +6,10 @@ type
   TDelphiPlatform = (
     Android32Target,
     Android64Target,
-    IOSTarget,
-    IOSSimulatorTarget,
+    IOS32Target,
+    IOS64Target,
+    IOSSimulator32Target,
+    IOSSimulator64Target,
     Linux64Target,
     MacOS32Target,
     MacOS64Target,
@@ -190,7 +192,7 @@ const
       ProductName: 'Delphi XE4';
       PackageVersion: '180';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\11.0';
-      SupportedPlatforms: [IOSTarget, MacOS32Target, Win32Target, Win64Target];
+      SupportedPlatforms: [IOS32Target, IOSSimulator32Target, MacOS32Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'DelphiXE4;XE4';
     ),
@@ -200,7 +202,7 @@ const
       ProductName: 'Delphi XE5';
       PackageVersion: '190';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\12.0';
-      SupportedPlatforms: [Android32Target, IOSTarget, MacOS32Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, IOS32Target, IOSSimulator32Target, MacOS32Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'DelphiXE5;XE5';
     ),
@@ -210,7 +212,7 @@ const
       ProductName: 'Delphi XE6';
       PackageVersion: '200';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\14.0';
-      SupportedPlatforms: [Android32Target, IOSTarget, MacOS32Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, IOS32Target, IOSSimulator32Target, MacOS32Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'DelphiXE6;XE6';
     ),
@@ -220,7 +222,7 @@ const
       ProductName: 'Delphi XE7';
       PackageVersion: '210';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\15.0';
-      SupportedPlatforms: [Android32Target, IOSTarget, MacOS32Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, IOS32Target, IOSSimulator32Target, MacOS32Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'DelphiXE7;XE7';
     ),
@@ -230,7 +232,7 @@ const
       ProductName: 'Delphi XE8';
       PackageVersion: '220';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\16.0';
-      SupportedPlatforms: [Android32Target, IOSTarget, MacOS32Target, MacOS64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, IOS32Target, IOSSimulator32Target, MacOS32Target, MacOS64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'DelphiXE8;XE8';
     ),
@@ -240,7 +242,7 @@ const
       ProductName: 'Delphi 10 Seattle';
       PackageVersion: '230';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\17.0';
-      SupportedPlatforms: [Android32Target, IOSTarget, MacOS32Target, MacOS64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, IOS32Target, IOS64Target, IOSSimulator32Target, MacOS32Target, MacOS64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 10;Seattle;10 Seattle';
     ),
@@ -250,7 +252,7 @@ const
       ProductName: 'Delphi 10.1 Berlin';
       PackageVersion: '240';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\18.0';
-      SupportedPlatforms: [Android32Target, IOSTarget, MacOS32Target, MacOS64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, IOS32Target, IOS64Target, IOSSimulator32Target, MacOS32Target, MacOS64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 10.1;Berlin;10.1 Berlin';
     ),
@@ -260,7 +262,7 @@ const
       ProductName: 'Delphi 10.2 Tokyo';
       PackageVersion: '250';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\19.0';
-      SupportedPlatforms: [Android32Target, IOSTarget, Linux64Target, MacOS32Target, MacOS64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, IOS32Target, IOS64Target, IOSSimulator32Target, Linux64Target, MacOS32Target, MacOS64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 10.2;Tokyo;10.2 Tokyo';
     ),
@@ -270,7 +272,7 @@ const
       ProductName: 'Delphi 10.3 Rio';
       PackageVersion: '260';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\20.0';
-      SupportedPlatforms: [Android32Target, Android64Target, IOSSimulatorTarget, IOSTarget, Linux64Target, MacOS64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, Android64Target, IOS32Target, IOS64Target, IOSSimulator32Target, Linux64Target, MacOS64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 10.3;Rio;10.3 Rio';
     ),
@@ -280,7 +282,7 @@ const
       ProductName: 'Delphi 10.4 Sydney';
       PackageVersion: '270';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\21.0';
-      SupportedPlatforms: [Android32Target, Android64Target, IOSSimulatorTarget, IOSTarget, Linux64Target, MacOS64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, Android64Target, IOS32Target, IOS64Target, Linux64Target, MacOS64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 10.4;Sydney;10.4 Sydney';
     ),
@@ -290,7 +292,7 @@ const
       ProductName: 'Delphi 11 Alexandria';
       PackageVersion: '280';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\22.0';
-      SupportedPlatforms: [Android32Target, Android64Target, IOSSimulatorTarget, IOSTarget, Linux64Target, MacOS64Target, MacOSARM64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, Android64Target, IOS32Target, IOS64Target, IOSSimulator64Target, Linux64Target, MacOS64Target, MacOSARM64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 11;Alexandria;11 Alexandria';
     ),
@@ -300,7 +302,7 @@ const
       ProductName: 'Delphi 12 Athens';
       PackageVersion: '290';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\23.0';
-      SupportedPlatforms: [Android32Target, Android64Target, IOSSimulatorTarget, IOSTarget, Linux64Target, MacOS64Target, MacOSARM64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, Android64Target, IOS64Target, IOSSimulator64Target, Linux64Target, MacOS64Target, MacOSARM64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 12;Athens;12 Athens';
     ),
@@ -310,7 +312,7 @@ const
       ProductName: 'Delphi 13 Florence';
       PackageVersion: '370';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\37.0';
-      SupportedPlatforms: [Android32Target, Android64Target, IOSSimulatorTarget, IOSTarget, Linux64Target, MacOS64Target, MacOSARM64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, Android64Target, IOS64Target, IOSSimulator64Target, Linux64Target, MacOS64Target, MacOSARM64Target, Win32Target, Win64Target];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 13;Florence;13 Florence';
     )
