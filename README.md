@@ -309,6 +309,8 @@ once:
 
 Until graduation, breaking changes may occur.
 
+![continuous-delphi logo](https://github.com/continuous-delphi/.github/blob/main/profile/ContinuousDelphi-gray-480x270.png?raw=true)
+
 ------------------------------------------------------------------------
 
 ## Part of Continuous Delphi
