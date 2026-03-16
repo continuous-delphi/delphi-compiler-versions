@@ -1,6 +1,6 @@
 ![delphi-compiler-versions logo](https://continuous-delphi.github.io/assets/logos/delphi-compiler-versions-480x270.png)
 
-https://github.com/continuous-delphi/delphi-compiler-versions
+[https://github.com/continuous-delphi/delphi-compiler-versions](https://github.com/continuous-delphi/delphi-compiler-versions)
 
 **Tag:** `vX.Y.Z`
 
