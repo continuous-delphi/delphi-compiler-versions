@@ -21,7 +21,7 @@ section here.
 
 ---
 
-## [1.4.0] Unreleased
+## [1.4.0] - 2026-03-21
 
 - Add support for `WinARM64EC` as Delphi 13.1 just started supporting this new platform
   Schema + Data versions bumped from `1.0.0` to `1.1.0` due to new platform support.
