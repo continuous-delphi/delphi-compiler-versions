@@ -1,5 +1,4 @@
 <!-- Generated from data/delphi-compiler-versions.json -- do not edit manually -->
-<!-- SchemaVersion: 1.0.0  DataVersion: 1.0.0  Generated: 2026-03-05 -->
 
 # Platform Support by Delphi Version
 
@@ -14,6 +13,7 @@
 |:--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | Win32 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓⁺ |
 | Win64 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓⁺ |  |  |  |  |  |  |  |  |  |  |  |  |
+| WinARM64EC | ✓⁺ |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | macOS32 |  |  |  |  |  | ✓⁻ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓⁺ |  |  |  |  |  |  |  |  |  |  |  |  |
 | macOS64 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓⁺ |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | macOSARM64 | ✓ | ✓ | ✓⁺ |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
@@ -28,4 +28,4 @@
 ---
 
 _Generated from data/delphi-compiler-versions.json -- 
-dataVersion 1.0.0, schemaVersion 1.0.0._
+dataVersion 1.1.0, schemaVersion 1.1.0._

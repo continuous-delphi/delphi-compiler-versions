@@ -20,6 +20,15 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+
+## [1.4.0] Unreleased
+
+- Add support for `WinARM64EC` as Delphi 13.1 just started supporting this new platform
+  Schema + Data versions bumped from `1.0.0` to `1.1.0` due to new platform support.
+  Latest schema becomes 1.1.0: `https://continuous-delphi.github.io/schemas/delphi-compiler-versions.schema.json`
+  Added `schemas/1.0.0` and `schemas/1.1.0` to capture version-specific schemas
+  [#22](https://github.com/continuous-delphi/delphi-compiler-versions/issues/22)
+
 ## [1.3.0] - 2026-03-15
 
 - Corrected iOS+iOSSimulator platforms, will now have iOS32 + iOS64 and

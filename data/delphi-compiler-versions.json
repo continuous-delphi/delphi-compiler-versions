@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "1.0.0",
-  "dataVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
+  "dataVersion": "1.1.0",
   "meta": {
-    "generatedUtcDate": "2026-03-05",
+    "generatedUtcDate": "2026-03-21",
     "scope": {
       "includeFromVer": "VER90",
       "excluded": [
@@ -347,10 +347,11 @@
       "packageVersion": "370",
       "regKeyRelativePath": "\\Software\\Embarcadero\\BDS\\37.0",
       "supportedBuildSystems": ["DCC", "MSBuild"],
-      "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOS64", "iOSSimulator64", "Android32", "Android64", "Linux64"],
+      "supportedPlatforms": ["Win32", "Win64", "macOS64", "macOSARM64", "iOS64", "iOSSimulator64", "Android32", "Android64", "Linux64", "WinARM64EC"],
       "aliases": ["Delphi 13", "Florence", "13 Florence"],
       "notes": [
-        "RAD Studio 13 unifies internal version numbers to 37 (registry, RTL, packages)."
+        "RAD Studio 13 unifies internal version numbers to 37 (registry, RTL, packages).",
+        "Update 1 for RAD Studio 13 Florence added support for WinARM64EC"
       ]
     }
   ]

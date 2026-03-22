@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://continuous-delphi.github.io/delphi-compiler-versions/schemas/delphi-compiler-versions.schema.json",
+  "$id": "https://continuous-delphi.github.io/delphi-compiler-versions/schemas/1.0.0/delphi-compiler-versions.schema.json"
   "title": "Continuous Delphi - Canonical List of Compiler Versions",
   "type": "object",
   "additionalProperties": false,
@@ -15,7 +15,7 @@
       "description": "Schema version for this document (semantic versioning).",
       "pattern": "^\\d+\\.\\d+\\.\\d+$",
       "examples": [
-        "1.1.0"
+        "1.0.0"
       ]
     },
     "dataVersion": {
@@ -23,7 +23,7 @@
       "description": "Dataset version for the contents of this file (semantic versioning). Independent of schemaVersion.",
       "pattern": "^\\d+\\.\\d+\\.\\d+$",
       "examples": [
-        "1.1.0"
+        "0.3.0"
       ]
     },
     "meta": {
@@ -75,8 +75,7 @@
         "iOSSimulator32",
         "iOSSimulator64",
         "Android32",
-        "Android64",
-        "WinARM64EC"
+        "Android64"
       ],
       "description": "A supported target platform identifier."
     },
@@ -187,8 +186,8 @@
   },
   "examples": [
     {
-      "schemaVersion": "1.1.0",
-      "dataVersion": "1.1.0",
+      "schemaVersion": "1.0.0",
+      "dataVersion": "0.3.0",
       "versions": [
         {
           "verDefine": "VER370",

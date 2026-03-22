@@ -9,9 +9,9 @@
   Metadata
   --------------------------------------------------------------------------- }
 
-{$DEFINE CD_DELPHI_SCHEMA_1_0_0}
-{$DEFINE CD_DELPHI_DATA_1_0_0}
-{$DEFINE CD_DELPHI_GENERATED_2026_03_05}
+{$DEFINE CD_DELPHI_SCHEMA_1_1_0}
+{$DEFINE CD_DELPHI_DATA_1_1_0}
+{$DEFINE CD_DELPHI_GENERATED_2026_03_21}
 
 { ---------------------------------------------------------------------------
   Unknown version detection
@@ -483,5 +483,9 @@
 
 {$IFDEF CD_DELPHI_XE2_OR_LATER}
   {$DEFINE CD_DELPHI_SUPPORTS_PLATFORM_WIN64}
+{$ENDIF}
+
+{$IFDEF CD_DELPHI_13_OR_LATER}
+  {$DEFINE CD_DELPHI_SUPPORTS_PLATFORM_WINARM64EC}
 {$ENDIF}
 

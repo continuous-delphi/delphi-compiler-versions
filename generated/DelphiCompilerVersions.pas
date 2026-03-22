@@ -15,7 +15,8 @@ type
     MacOS64Target,
     MacOSARM64Target,
     Win32Target,
-    Win64Target
+    Win64Target,
+    WinARM64ECTarget
   );
 
   TDelphiPlatforms = set of TDelphiPlatform;
@@ -41,8 +42,8 @@ type
   PDelphiVersion = ^TDelphiVersion;
 
 const
-  CD_SCHEMA_VERSION = '1.0.0';
-  CD_DATA_VERSION   = '1.0.0';
+  CD_SCHEMA_VERSION = '1.1.0';
+  CD_DATA_VERSION   = '1.1.0';
 
   DelphiVersions: array[0..26] of TDelphiVersion =
   (
@@ -312,7 +313,7 @@ const
       ProductName: 'Delphi 13 Florence';
       PackageVersion: '370';
       RegKeyRelativePath: '\Software\Embarcadero\BDS\37.0';
-      SupportedPlatforms: [Android32Target, Android64Target, IOS64Target, IOSSimulator64Target, Linux64Target, MacOS64Target, MacOSARM64Target, Win32Target, Win64Target];
+      SupportedPlatforms: [Android32Target, Android64Target, IOS64Target, IOSSimulator64Target, Linux64Target, MacOS64Target, MacOSARM64Target, Win32Target, Win64Target, WinARM64ECTarget];
       SupportedBuildSystems: [DCCSystem, MSBuildSystem];
       AliasesCsv: 'Delphi 13;Florence;13 Florence';
     )

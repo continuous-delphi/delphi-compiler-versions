@@ -84,7 +84,7 @@ $versionCount = $versions.Count
 # ---------------------------------------------------------------------------
 
 $platformOrder = @(
-  'Win32', 'Win64',
+  'Win32', 'Win64', 'WinARM64EC',
   'macOS32', 'macOS64', 'macOSARM64',
   'iOS32', 'iOSSimulator32',
   'iOS64', 'iOSSimulator64',
@@ -162,12 +162,10 @@ function Get-Cell([string]$platform, [int]$displayIndex) {
 $sb = [System.Text.StringBuilder]::new()
 function Emit([string]$line = '') { [void]$sb.AppendLine($line) }
 
-$genDate       = if ($data.meta -and $data.meta.generatedUtcDate) { $data.meta.generatedUtcDate } else { '' }
 $dataVersion   = $data.dataVersion
 $schemaVersion = $data.schemaVersion
 
 Emit '<!-- Generated from data/delphi-compiler-versions.json -- do not edit manually -->'
-Emit "<!-- SchemaVersion: $schemaVersion  DataVersion: $dataVersion  Generated: $genDate -->"
 Emit ''
 Emit '# Platform Support by Delphi Version'
 Emit ''
