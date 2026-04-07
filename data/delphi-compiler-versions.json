@@ -19,7 +19,28 @@
       "See individual entry notes for platforms introduced in sub-version point releases.",
       "Tooling should check supportedBuildSystems and supportedPlatforms before assessing installation readiness.",
       "Return notApplicable readiness when the requested buildSystem or platform is absent from the supported arrays."
-    ]
+    ],
+    "project": {
+      "name": "delphi-compiler-versions",
+      "repository": "https://github.com/continuous-delphi/delphi-compiler-versions",
+      "organization": "https://github.com/continuous-delphi",
+      "maintainers": [
+        {
+          "name": "Darian Miller",
+          "role": "primary",
+          "url": "https://github.com/darianmiller"
+        }
+      ]
+    },
+    "description": {
+      "summary": "Canonical Delphi compiler version mapping based on official VER### symbols.",
+      "purpose": "Provides a single source of truth for Delphi compiler version detection across tooling, CI, and code generation."
+    },
+    "license": {
+      "name": "MIT",
+      "spdx": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
   },
   "versions": [
     {

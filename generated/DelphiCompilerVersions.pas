@@ -1,5 +1,29 @@
 unit DelphiCompilerVersions;
 
+(*-----------------------------------------------------------------------------
+ delphi-compiler-versions
+
+ Canonical Delphi compiler version mapping based on official VER### symbols.
+ Provides a single source of truth for version detection in Delphi tooling.
+ Permissively licensed for unrestricted use in commercial and open-source projects.
+
+ Auto-generated file. Do not edit manually; update the canonical source instead.
+
+ Project repository:
+ https://github.com/continuous-delphi/delphi-compiler-versions
+
+ Part of Continuous-Delphi: Strengthening Delphi's continued success
+ https://github.com/continuous-delphi
+
+ Compiler version data also used by the PowerShell toolchain discovery tool:
+ https://github.com/continuous-delphi/delphi-inspect
+
+ Copyright (c) 2026 Darian Miller
+ Licensed under the MIT License.
+ https://opensource.org/licenses/MIT
+ SPDX-License-Identifier: MIT
+-----------------------------------------------------------------------------*)
+
 interface
 
 type

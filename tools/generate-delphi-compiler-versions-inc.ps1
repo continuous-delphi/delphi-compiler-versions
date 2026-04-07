@@ -184,12 +184,30 @@ function Get-MinTokenForIndex([int]$idx) {
   return $null
 }
 
-Emit '{'
-Emit '  DELPHI_COMPILER_VERSIONS.inc'
-Emit '  Generated from: data/delphi-compiler-versions.json'
-Emit '  Home Repo: https://github.com/continuous-delphi/delphi-compiler-versions'
-Emit '  License: MIT'
-Emit '}'
+Emit '(*-----------------------------------------------------------------------------'
+Emit ' delphi-compiler-versions'
+Emit
+Emit ' Canonical Delphi compiler version mapping based on official VER### symbols.'
+Emit ' Provides standardized symbols for use in {$IFDEF} and related conditional compilation.'
+Emit ' Permissively licensed for unrestricted use in commercial and open-source projects.'
+Emit
+Emit ' Generated from: data/delphi-compiler-versions.json'
+Emit ' Auto-generated file. Do not edit manually; update the canonical source instead.'
+Emit
+Emit ' Project repository:'
+Emit ' https://github.com/continuous-delphi/delphi-compiler-versions'
+Emit
+Emit " Part of Continuous-Delphi: Strengthening Delphi's continued success"
+Emit ' https://github.com/continuous-delphi'
+Emit
+Emit ' Compiler version data also used by the PowerShell toolchain discovery tool:'
+Emit ' https://github.com/continuous-delphi/delphi-inspect'
+Emit
+Emit ' Copyright (c) 2026 Darian Miller'
+Emit ' Licensed under the MIT License.'
+Emit ' https://opensource.org/licenses/MIT'
+Emit ' SPDX-License-Identifier: MIT'
+Emit '-----------------------------------------------------------------------------*)'
 Emit
 Emit '{ ---------------------------------------------------------------------------'
 Emit '  Metadata'
