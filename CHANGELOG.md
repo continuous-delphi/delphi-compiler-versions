@@ -20,6 +20,9 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+## [1.5.0] - 2026-04-07
+
+- License headers added to generators
 
 ## [1.4.0] - 2026-03-21
 
