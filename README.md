@@ -30,13 +30,13 @@ You can download these manually in [Releases](https://github.com/continuous-delp
 For scripted updates use curl:
 
 ```bash
-curl -L -O https://github.com/continuous-delphi/delphi-compiler-versions/releases/download/v1.6.0/DELPHI_COMPILER_VERSIONS.inc
+curl -L -O https://github.com/continuous-delphi/delphi-compiler-versions/releases/latest/download/DELPHI_COMPILER_VERSIONS.inc
 ```
 
 or PowerShell:
 
 ```powershell
-Invoke-WebRequest -Uri "https://github.com/continuous-delphi/delphi-compiler-versions/releases/download/v1.6.0/DELPHI_COMPILER_VERSIONS.inc" -OutFile "DELPHI_COMPILER_VERSIONS.inc"
+Invoke-WebRequest -Uri "https://github.com/continuous-delphi/delphi-compiler-versions/releases/latest/download/DELPHI_COMPILER_VERSIONS.inc" -OutFile "DELPHI_COMPILER_VERSIONS.inc"
 ```
 
 ### Quick start - submodule
@@ -51,7 +51,7 @@ git submodule add https://github.com/continuous-delphi/delphi-compiler-versions 
 ```
 
 Then add the desired files from `vendor/delphi-compiler-versions/generated` to your project.
-(Typically the `DELPHI_COMPILER_VERSIONS.inc` file)  The tooling and tests found in the
+(Typically the `DELPHI_COMPILER_VERSIONS.inc` file) The tooling and tests found in the
 rest of the repository can be ignored.
 
 To update to a new version of the generated files:
@@ -97,7 +97,9 @@ tooling derive from that dataset.
     tests/
       pwsh/
 
+    .github/workflows/ci.yml                # test on push + PRs
     .github/workflows/release.yml           # automated releases
+    .github/workflows/pages.yml             # publish schemas to GitHub Pages
 ```
 
 - The generated include file and source file are generated and _never manually edited_.

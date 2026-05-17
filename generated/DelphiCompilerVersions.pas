@@ -68,8 +68,8 @@ type
   PDelphiVersion = ^TDelphiVersion;
 
 const
-  CD_SCHEMA_VERSION = '1.1.0';
-  CD_DATA_VERSION   = '1.1.0';
+  CD_SCHEMA_VERSION = '1.2.0';
+  CD_DATA_VERSION   = '1.2.0';
 
   DelphiVersions: array[0..26] of TDelphiVersion =
   (

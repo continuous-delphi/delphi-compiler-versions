@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "1.1.0",
-  "dataVersion": "1.1.0",
+  "$schema": "https://continuous-delphi.github.io/delphi-compiler-versions/schemas/1.2.0/delphi-compiler-versions.schema.json",
+  "schemaVersion": "1.2.0",
+  "dataVersion": "1.2.0",
   "meta": {
     "generatedUtcDate": "2026-03-21",
     "scope": {

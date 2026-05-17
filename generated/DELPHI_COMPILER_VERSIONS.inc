@@ -27,8 +27,8 @@
   Metadata
   --------------------------------------------------------------------------- }
 
-{$DEFINE CD_DELPHI_SCHEMA_1_1_0}
-{$DEFINE CD_DELPHI_DATA_1_1_0}
+{$DEFINE CD_DELPHI_SCHEMA_1_2_0}
+{$DEFINE CD_DELPHI_DATA_1_2_0}
 {$DEFINE CD_DELPHI_GENERATED_2026_03_21}
 
 { ---------------------------------------------------------------------------

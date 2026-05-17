@@ -20,6 +20,13 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+## [1.7.0] - 2026-05-17
+
+- Added schema to `delphi-compiler-versions.json` to support autocomplete in VSCode
+[#28](https://github.com/continuous-delphi/delphi-compiler-versions/issues/28)
+- Add $schema self-reference to data file (schema changed, bumped to 1.2)
+- Minor corrections to 1.0 and 1.1 schema files (missing comma)
+
 ## [1.6.0] - 2026-04-07
 
 - RTLVersion added to TDelphiVersion within the generated DelphiCompilerVersions.pas
@@ -33,14 +40,14 @@ section here.
 
 - Add support for `WinARM64EC` as Delphi 13.1 just started supporting this new platform
   Schema + Data versions bumped from `1.0.0` to `1.1.0` due to new platform support.
-  Latest schema becomes 1.1.0: `https://continuous-delphi.github.io/schemas/delphi-compiler-versions.schema.json`
+  Latest schema becomes 1.1.0: `https://continuous-delphi.github.io/delphi-compiler-versions/schemas/delphi-compiler-versions.schema.json`
   Added `schemas/1.0.0` and `schemas/1.1.0` to capture version-specific schemas
   [#22](https://github.com/continuous-delphi/delphi-compiler-versions/issues/22)
 
 ## [1.3.0] - 2026-03-15
 
 - Corrected iOS+iOSSimulator platforms, will now have iOS32 + iOS64 and
-iOSSimulator32 + iOSSimulator64 platforms
+  iOSSimulator32 + iOSSimulator64 platforms
 
 - `ci` workflow to trigger on all branches
 

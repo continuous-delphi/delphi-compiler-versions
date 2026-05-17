@@ -28,4 +28,4 @@
 ---
 
 _Generated from data/delphi-compiler-versions.json -- 
-dataVersion 1.1.0, schemaVersion 1.1.0._
+dataVersion 1.2.0, schemaVersion 1.2.0._
