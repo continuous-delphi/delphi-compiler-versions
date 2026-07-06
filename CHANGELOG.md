@@ -22,8 +22,9 @@ section here.
 ---
 ## [1.8.0] - 2026-07-05
 
-- Added `TDelphiVerDefine` enumerated type to the generated DelphiCompilerVersions.pas file
-Also fixed the Delphi 2 compatibility for DelphiCompilerVersions.pas which was broken in 1.6 for ticket #26
+- Only a change to the generator to add `TDelphiVerDefine` enumerated type to
+  the generated `DelphiCompilerVersions.pas` file
+  Also fixed the Delphi 2 compatibility for DelphiCompilerVersions.pas which was broken in 1.6 for ticket #26
 [#29](https://github.com/continuous-delphi/delphi-compiler-versions/issues/29)
 
 ## [1.7.0] - 2026-05-17
