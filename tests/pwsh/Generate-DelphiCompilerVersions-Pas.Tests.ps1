@@ -119,6 +119,41 @@ Describe 'DelphiCompilerVersions.pas generator' {
     $script:OutText | Should -Match 'AliasesCsv: string'
   }
 
+  It 'declares TDelphiVerDefine enum' {
+    $script:OutText | Should -Match 'TDelphiVerDefine = \('
+  }
+
+  It 'declares TDelphiVerDefines set type' {
+    $script:OutText | Should -Match 'TDelphiVerDefines = set of TDelphiVerDefine'
+  }
+
+  It 'TDelphiVerDefine first member is defUnknown' {
+    # Sentinel must be ordinal 0 so a zeroed/Default record reads as defUnknown.
+    $m = [regex]::Match(
+      $script:OutText,
+      'TDelphiVerDefine = \(\s*defUnknown',
+      [System.Text.RegularExpressions.RegexOptions]::Singleline
+    )
+    $m.Success | Should -BeTrue
+  }
+
+  It 'TDelphiVerDefine has a defVerXXX member per fixture version' {
+    $script:OutText | Should -Match '\bdefVer90\b'
+    $script:OutText | Should -Match '\bdefVer320\b'
+    $script:OutText | Should -Match '\bdefVer350\b'
+  }
+
+  It 'TDelphiVerDefine members follow the DelphiVersions order' {
+    # Ordinal order must match the array order so Ord(member) - 1 indexes it.
+    $enum = [regex]::Match(
+      $script:OutText,
+      'TDelphiVerDefine = \(([\s\S]*?)\);',
+      [System.Text.RegularExpressions.RegexOptions]::Singleline
+    ).Groups[1].Value
+    $members = [regex]::Matches($enum, 'def\w+') | ForEach-Object { $_.Value }
+    $members | Should -Be @('defUnknown', 'defVer90', 'defVer320', 'defVer350')
+  }
+
   # -------------------------------------------------------------------------
   # Version array
   # -------------------------------------------------------------------------
@@ -172,6 +207,10 @@ Describe 'DelphiCompilerVersions.pas generator' {
 
   It 'declares GetLatestDelphiVersion' {
     $script:OutText | Should -Match 'function GetLatestDelphiVersion: TDelphiVersion'
+  }
+
+  It 'declares GetDelphiVersion taking a TDelphiVerDefine' {
+    $script:OutText | Should -Match 'function GetDelphiVersion\(const AVerDefine: TDelphiVerDefine\): TDelphiVersion'
   }
 
   It 'declares CurrentDelphiCompilerVersion as var' {
@@ -240,6 +279,24 @@ Describe 'DelphiCompilerVersions.pas generator' {
 
   It 'GetLatestDelphiVersion body uses High(DelphiVersions)' {
     $script:OutText | Should -Match 'Result := DelphiVersions\[High\(DelphiVersions\)\]'
+  }
+
+  It 'GetDelphiVersion body maps Ord(AVerDefine) - 1 to the array' {
+    $script:OutText | Should -Match 'Result := DelphiVersions\[Ord\(AVerDefine\) - 1\]'
+  }
+
+  It 'GetDelphiVersion returns an empty record for defUnknown' {
+    $m = [regex]::Match(
+      $script:OutText,
+      'if AVerDefine = defUnknown then[\s\S]*?Result\.SupportedPlatforms := \[\];[\s\S]*?Exit;',
+      [System.Text.RegularExpressions.RegexOptions]::Singleline
+    )
+    $m.Success | Should -BeTrue
+  }
+
+  It 'GetDelphiVersion avoids the XE+ only Default() intrinsic' {
+    # This unit must compile on Delphi 2+, where Default() does not exist.
+    $script:OutText | Should -Not -Match 'Default\(TDelphiVersion\)'
   }
 
   # -------------------------------------------------------------------------

@@ -217,6 +217,24 @@ $null = $sb.AppendLine()
 $null = $sb.AppendLine('  TDelphiBuildSystems = set of TDelphiBuildSystem;')
 $null = $sb.AppendLine()
 
+# VerDefine enum: one member per VERxxx conditional symbol, in the same
+# chronological order as DelphiVersions. defUnknown (ordinal 0) represents a
+# compiler not present in the dataset; defVerXXX ordinals are 1..N and map
+# one-to-one to DelphiVersions[0..N-1] (Ord(member) - 1 is the array index).
+$null = $sb.AppendLine('  TDelphiVerDefine = (')
+$null = $sb.AppendLine('    defUnknown,')
+for ($i=0; $i -lt $sorted.Count; $i++) {
+  $verDefine = [string]$sorted[$i].verDefine
+  if ($verDefine -notmatch '^VER\d+$') { throw "Unexpected verDefine '$verDefine'; expected VER<digits>." }
+  $memberName = 'defVer' + $verDefine.Substring(3)
+  $comma = if ($i -lt ($sorted.Count-1)) { ',' } else { '' }
+  $null = $sb.AppendLine('    ' + $memberName + $comma)
+}
+$null = $sb.AppendLine('  );')
+$null = $sb.AppendLine()
+$null = $sb.AppendLine('  TDelphiVerDefines = set of TDelphiVerDefine;')
+$null = $sb.AppendLine()
+
 # Record
 $null = $sb.AppendLine('  TDelphiVersion = record')
 $null = $sb.AppendLine('    VerDefine: string;')
@@ -227,8 +245,6 @@ $null = $sb.AppendLine('    RegKeyRelativePath: string;')
 $null = $sb.AppendLine('    SupportedPlatforms: TDelphiPlatforms;')
 $null = $sb.AppendLine('    SupportedBuildSystems: TDelphiBuildSystems;')
 $null = $sb.AppendLine('    AliasesCsv: string;')
-$null = $sb.AppendLine()
-$null = $sb.AppendLine('    function RTLVersion:string;');
 $null = $sb.AppendLine('  end;')
 $null = $sb.AppendLine()
 $null = $sb.AppendLine('  PDelphiVersion = ^TDelphiVersion;')
@@ -286,6 +302,8 @@ $null = $sb.AppendLine('function TryGetDelphiVersionByVerDefine(const AVerDefine
 $null = $sb.AppendLine('function TryGetDelphiVersionByProductName(const AProductName: string; var AVersion: TDelphiVersion): Boolean;')
 $null = $sb.AppendLine('function TryGetDelphiVersionByAlias(const AAlias: string; var AVersion: TDelphiVersion): Boolean;')
 $null = $sb.AppendLine('function GetLatestDelphiVersion: TDelphiVersion;')
+$null = $sb.AppendLine('function GetDelphiVersion(const AVerDefine: TDelphiVerDefine): TDelphiVersion;')
+$null = $sb.AppendLine('function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;')
 $null = $sb.AppendLine()
 # CurrentDelphiCompilerVersion and IsCurrentDelphiCompilerVersionKnown are set in the
 # initialization section via $IFDEF VERxxx chains; they are vars, not consts,
@@ -395,12 +413,43 @@ $null = $sb.AppendLine('begin')
 $null = $sb.AppendLine('  Result := DelphiVersions[High(DelphiVersions)];')
 $null = $sb.AppendLine('end;')
 $null = $sb.AppendLine()
-$null = $sb.AppendLine('function TDelphiVersion.RTLVersion:string;')
+# GetDelphiVersion maps an enum member back to its dataset record. defVerXXX
+# ordinals are 1..N and align with DelphiVersions[0..N-1], so Ord - 1 indexes
+# directly. defUnknown has no entry and returns an empty record. Fields are
+# cleared explicitly rather than via Default(), which is XE+ only; this unit
+# must compile on Delphi 2+.
+$null = $sb.AppendLine('function GetDelphiVersion(const AVerDefine: TDelphiVerDefine): TDelphiVersion;')
 $null = $sb.AppendLine('begin')
-$null = $sb.AppendLine('  // special Delphi 2007 quirk, unlikely to re-occur')
-$null = $sb.AppendLine('  // not really worth a separate data element')
-$null = $sb.AppendLine("  if CompilerVersion='18.5' then Exit('18.0')")
-$null = $sb.AppendLine('  else Exit(CompilerVersion);')
+$null = $sb.AppendLine('  if AVerDefine = defUnknown then')
+$null = $sb.AppendLine('  begin')
+$null = $sb.AppendLine('    Result.VerDefine := '''';')
+$null = $sb.AppendLine('    Result.CompilerVersion := '''';')
+$null = $sb.AppendLine('    Result.ProductName := '''';')
+$null = $sb.AppendLine('    Result.PackageVersion := '''';')
+$null = $sb.AppendLine('    Result.RegKeyRelativePath := '''';')
+$null = $sb.AppendLine('    Result.SupportedPlatforms := [];')
+$null = $sb.AppendLine('    Result.SupportedBuildSystems := [];')
+$null = $sb.AppendLine('    Result.AliasesCsv := '''';')
+$null = $sb.AppendLine('    Exit;')
+$null = $sb.AppendLine('  end;')
+$null = $sb.AppendLine('  Result := DelphiVersions[Ord(AVerDefine) - 1];')
+$null = $sb.AppendLine('end;')
+$null = $sb.AppendLine()
+# RTLVersion is a standalone function, not a record method: records with methods
+# are not supported by Delphi 2. Exit(value) is likewise unavailable pre-Delphi 2009,
+# so the body assigns Result instead.
+$null = $sb.AppendLine('function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;')
+$null = $sb.AppendLine('begin')
+$null = $sb.AppendLine("  If ADelphiVersion.CompilerVersion='18.5' then")
+$null = $sb.AppendLine('  begin')
+$null = $sb.AppendLine('    // special Delphi 2007 quirk, unlikely to re-occur in the future')
+$null = $sb.AppendLine('    // not really worth a separate data element')
+$null = $sb.AppendLine("    Result := '18.0';")
+$null = $sb.AppendLine('  end')
+$null = $sb.AppendLine('  else')
+$null = $sb.AppendLine('  begin')
+$null = $sb.AppendLine('    Result := ADelphiVersion.CompilerVersion;')
+$null = $sb.AppendLine('  end;')
 $null = $sb.AppendLine('end;')
 $null = $sb.AppendLine()
 

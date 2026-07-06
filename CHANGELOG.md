@@ -20,6 +20,12 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+## [1.8.0] - 2026-07-05
+
+- Added `TDelphiVerDefine` enumerated type to the generated DelphiCompilerVersions.pas file
+Also fixed the Delphi 2 compatibility for DelphiCompilerVersions.pas which was broken in 1.6 for ticket #26
+[#29](https://github.com/continuous-delphi/delphi-compiler-versions/issues/29)
+
 ## [1.7.0] - 2026-05-17
 
 - Added schema to `delphi-compiler-versions.json` to support autocomplete in VSCode

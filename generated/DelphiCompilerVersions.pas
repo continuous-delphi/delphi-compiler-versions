@@ -52,6 +52,39 @@ type
 
   TDelphiBuildSystems = set of TDelphiBuildSystem;
 
+  TDelphiVerDefine = (
+    defUnknown,
+    defVer90,
+    defVer100,
+    defVer120,
+    defVer130,
+    defVer140,
+    defVer150,
+    defVer170,
+    defVer180,
+    defVer185,
+    defVer200,
+    defVer210,
+    defVer220,
+    defVer230,
+    defVer240,
+    defVer250,
+    defVer260,
+    defVer270,
+    defVer280,
+    defVer290,
+    defVer300,
+    defVer310,
+    defVer320,
+    defVer330,
+    defVer340,
+    defVer350,
+    defVer360,
+    defVer370
+  );
+
+  TDelphiVerDefines = set of TDelphiVerDefine;
+
   TDelphiVersion = record
     VerDefine: string;
     CompilerVersion: string;
@@ -61,8 +94,6 @@ type
     SupportedPlatforms: TDelphiPlatforms;
     SupportedBuildSystems: TDelphiBuildSystems;
     AliasesCsv: string;
-
-    function RTLVersion:string;
   end;
 
   PDelphiVersion = ^TDelphiVersion;
@@ -349,6 +380,8 @@ function TryGetDelphiVersionByVerDefine(const AVerDefine: string; var AVersion: 
 function TryGetDelphiVersionByProductName(const AProductName: string; var AVersion: TDelphiVersion): Boolean;
 function TryGetDelphiVersionByAlias(const AAlias: string; var AVersion: TDelphiVersion): Boolean;
 function GetLatestDelphiVersion: TDelphiVersion;
+function GetDelphiVersion(const AVerDefine: TDelphiVerDefine): TDelphiVersion;
+function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;
 
 var
   CurrentDelphiCompilerVersion: TDelphiVersion;
@@ -449,12 +482,35 @@ begin
   Result := DelphiVersions[High(DelphiVersions)];
 end;
 
-function TDelphiVersion.RTLVersion:string;
+function GetDelphiVersion(const AVerDefine: TDelphiVerDefine): TDelphiVersion;
 begin
-  // special Delphi 2007 quirk, unlikely to re-occur
-  // not really worth a separate data element
-  if CompilerVersion='18.5' then Exit('18.0')
-  else Exit(CompilerVersion);
+  if AVerDefine = defUnknown then
+  begin
+    Result.VerDefine := '';
+    Result.CompilerVersion := '';
+    Result.ProductName := '';
+    Result.PackageVersion := '';
+    Result.RegKeyRelativePath := '';
+    Result.SupportedPlatforms := [];
+    Result.SupportedBuildSystems := [];
+    Result.AliasesCsv := '';
+    Exit;
+  end;
+  Result := DelphiVersions[Ord(AVerDefine) - 1];
+end;
+
+function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;
+begin
+  If ADelphiVersion.CompilerVersion='18.5' then
+  begin
+    // special Delphi 2007 quirk, unlikely to re-occur in the future
+    // not really worth a separate data element
+    Result := '18.0';
+  end
+  else
+  begin
+    Result := ADelphiVersion.CompilerVersion;
+  end;
 end;
 
 initialization
