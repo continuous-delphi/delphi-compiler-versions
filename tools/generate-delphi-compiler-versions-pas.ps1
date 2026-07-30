@@ -312,6 +312,7 @@ $null = $sb.AppendLine('function TryGetDelphiVersionByProductName(const AProduct
 $null = $sb.AppendLine('function TryGetDelphiVersionByAlias(const AAlias: string; var AVersion: TDelphiVersion): Boolean;')
 $null = $sb.AppendLine('function GetLatestDelphiVersion: TDelphiVersion;')
 $null = $sb.AppendLine('function GetDelphiVersion(const AVerDefine: TDelphiVerDefine): TDelphiVersion;')
+$null = $sb.AppendLine('function IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion; const AMinimum: TDelphiVerDefine): Boolean;')
 $null = $sb.AppendLine('function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;')
 $null = $sb.AppendLine()
 # CurrentDelphiCompilerVersion and IsCurrentDelphiCompilerVersionKnown are set in the
@@ -443,6 +444,16 @@ $null = $sb.AppendLine('    Result.AliasesCsv := '''';')
 $null = $sb.AppendLine('    Exit;')
 $null = $sb.AppendLine('  end;')
 $null = $sb.AppendLine('  Result := DelphiVersions[Ord(AVerDefine) - 1];')
+$null = $sb.AppendLine('end;')
+$null = $sb.AppendLine()
+# IsDelphiVersionAtLeast: TDelphiVerDefine ordinals are chronological (defUnknown = 0,
+# defVer90 = 1, ... defVer370), so "at least" is a direct ordinal comparison on the
+# record's VerEnum field. Empty/unknown records carry VerEnum = defUnknown (ordinal 0),
+# so they are >= only defUnknown and return False against any real minimum. A defUnknown
+# minimum acts as "no lower bound" and returns True for any version.
+$null = $sb.AppendLine('function IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion; const AMinimum: TDelphiVerDefine): Boolean;')
+$null = $sb.AppendLine('begin')
+$null = $sb.AppendLine('  Result := Ord(ADelphiVersion.VerEnum) >= Ord(AMinimum);')
 $null = $sb.AppendLine('end;')
 $null = $sb.AppendLine()
 # RTLVersion is a standalone function, not a record method: records with methods

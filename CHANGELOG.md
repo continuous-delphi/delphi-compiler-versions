@@ -20,6 +20,14 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+## [1.8.2] - 2026-07-29
+
+- Added `IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion; const AMinimum:
+  TDelphiVerDefine): Boolean` to the generated `DelphiCompilerVersions.pas` file. Returns
+  `True` when a version is at least the given `TDelphiVerDefine`, via an ordinal comparison
+  on the `VerEnum` field. A `defUnknown` minimum acts as "no lower bound".
+[#33](https://github.com/continuous-delphi/delphi-compiler-versions/issues/33)
+
 ## [1.8.1] - 2026-07-29
 
 - Added a `VerEnum: TDelphiVerDefine` field to the `TDelphiVersion` record in the

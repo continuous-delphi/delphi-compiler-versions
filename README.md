@@ -242,6 +242,9 @@ It provides:
     recognized in the dataset
 -   `TryGetDelphiVersionByVerDefine`, `TryGetDelphiVersionByProductName`,
     `TryGetDelphiVersionByAlias` -- lookup functions
+-   `IsDelphiVersionAtLeast` -- returns `True` when a `TDelphiVersion` is at
+    least the given `TDelphiVerDefine` (ordinal comparison on `VerEnum`); a
+    `defUnknown` minimum acts as "no lower bound"
 
 The generated unit is intentionally written using a conservative subset
 of Object Pascal:

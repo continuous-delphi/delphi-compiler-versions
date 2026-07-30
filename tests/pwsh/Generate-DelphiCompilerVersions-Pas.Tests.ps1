@@ -237,6 +237,10 @@ Describe 'DelphiCompilerVersions.pas generator' {
     $script:OutText | Should -Match 'function GetDelphiVersion\(const AVerDefine: TDelphiVerDefine\): TDelphiVersion'
   }
 
+  It 'declares IsDelphiVersionAtLeast taking a TDelphiVersion and a TDelphiVerDefine minimum' {
+    $script:OutText | Should -Match 'function IsDelphiVersionAtLeast\(const ADelphiVersion: TDelphiVersion; const AMinimum: TDelphiVerDefine\): Boolean'
+  }
+
   It 'declares CurrentDelphiCompilerVersion as var' {
     $m = [regex]::Match(
       $script:OutText,
@@ -313,6 +317,17 @@ Describe 'DelphiCompilerVersions.pas generator' {
     $m = [regex]::Match(
       $script:OutText,
       'if AVerDefine = defUnknown then[\s\S]*?Result\.SupportedPlatforms := \[\];[\s\S]*?Exit;',
+      [System.Text.RegularExpressions.RegexOptions]::Singleline
+    )
+    $m.Success | Should -BeTrue
+  }
+
+  It 'IsDelphiVersionAtLeast body is the ordinal comparison on VerEnum' {
+    # The whole point of the VerEnum field: comparison reduces to Ord(VerEnum) >= Ord(min),
+    # with no string parsing or resolver.
+    $m = [regex]::Match(
+      $script:OutText,
+      'function IsDelphiVersionAtLeast\([\s\S]*?begin\s*Result := Ord\(ADelphiVersion\.VerEnum\) >= Ord\(AMinimum\);\s*end;',
       [System.Text.RegularExpressions.RegexOptions]::Singleline
     )
     $m.Success | Should -BeTrue

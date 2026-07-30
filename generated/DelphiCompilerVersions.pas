@@ -409,6 +409,7 @@ function TryGetDelphiVersionByProductName(const AProductName: string; var AVersi
 function TryGetDelphiVersionByAlias(const AAlias: string; var AVersion: TDelphiVersion): Boolean;
 function GetLatestDelphiVersion: TDelphiVersion;
 function GetDelphiVersion(const AVerDefine: TDelphiVerDefine): TDelphiVersion;
+function IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion; const AMinimum: TDelphiVerDefine): Boolean;
 function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;
 
 var
@@ -526,6 +527,11 @@ begin
     Exit;
   end;
   Result := DelphiVersions[Ord(AVerDefine) - 1];
+end;
+
+function IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion; const AMinimum: TDelphiVerDefine): Boolean;
+begin
+  Result := Ord(ADelphiVersion.VerEnum) >= Ord(AMinimum);
 end;
 
 function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;

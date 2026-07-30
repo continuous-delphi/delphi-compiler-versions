@@ -142,6 +142,7 @@ Acceptance criteria:
 ---
 Title: Add IsDelphiVersionAtLeast comparison helper to generated DelphiCompilerVersions.pas
 Issue: #33
+Status: closed
 Labels: enhancement
 Body:
 Add a helper to the generated `DelphiCompilerVersions.pas` unit that answers "is this
