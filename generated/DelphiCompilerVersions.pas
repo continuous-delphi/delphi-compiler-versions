@@ -87,6 +87,7 @@ type
 
   TDelphiVersion = record
     VerDefine: string;
+    VerEnum: TDelphiVerDefine;
     CompilerVersion: string;
     ProductName: string;
     PackageVersion: string;
@@ -106,6 +107,7 @@ const
   (
     (
       VerDefine: 'VER90';
+      VerEnum: defVer90;
       CompilerVersion: '9.0';
       ProductName: 'Delphi 2';
       PackageVersion: '20';
@@ -116,6 +118,7 @@ const
     ),
     (
       VerDefine: 'VER100';
+      VerEnum: defVer100;
       CompilerVersion: '10.0';
       ProductName: 'Delphi 3';
       PackageVersion: '30';
@@ -126,6 +129,7 @@ const
     ),
     (
       VerDefine: 'VER120';
+      VerEnum: defVer120;
       CompilerVersion: '12.0';
       ProductName: 'Delphi 4';
       PackageVersion: '40';
@@ -136,6 +140,7 @@ const
     ),
     (
       VerDefine: 'VER130';
+      VerEnum: defVer130;
       CompilerVersion: '13.0';
       ProductName: 'Delphi 5';
       PackageVersion: '50';
@@ -146,6 +151,7 @@ const
     ),
     (
       VerDefine: 'VER140';
+      VerEnum: defVer140;
       CompilerVersion: '14.0';
       ProductName: 'Delphi 6';
       PackageVersion: '60';
@@ -156,6 +162,7 @@ const
     ),
     (
       VerDefine: 'VER150';
+      VerEnum: defVer150;
       CompilerVersion: '15.0';
       ProductName: 'Delphi 7';
       PackageVersion: '70';
@@ -166,6 +173,7 @@ const
     ),
     (
       VerDefine: 'VER170';
+      VerEnum: defVer170;
       CompilerVersion: '17.0';
       ProductName: 'Delphi 2005';
       PackageVersion: '90';
@@ -176,6 +184,7 @@ const
     ),
     (
       VerDefine: 'VER180';
+      VerEnum: defVer180;
       CompilerVersion: '18.0';
       ProductName: 'Delphi 2006';
       PackageVersion: '100';
@@ -186,6 +195,7 @@ const
     ),
     (
       VerDefine: 'VER185';
+      VerEnum: defVer185;
       CompilerVersion: '18.5';
       ProductName: 'Delphi 2007';
       PackageVersion: '110';
@@ -196,6 +206,7 @@ const
     ),
     (
       VerDefine: 'VER200';
+      VerEnum: defVer200;
       CompilerVersion: '20.0';
       ProductName: 'Delphi 2009';
       PackageVersion: '120';
@@ -206,6 +217,7 @@ const
     ),
     (
       VerDefine: 'VER210';
+      VerEnum: defVer210;
       CompilerVersion: '21.0';
       ProductName: 'Delphi 2010';
       PackageVersion: '140';
@@ -216,6 +228,7 @@ const
     ),
     (
       VerDefine: 'VER220';
+      VerEnum: defVer220;
       CompilerVersion: '22.0';
       ProductName: 'Delphi XE';
       PackageVersion: '150';
@@ -226,6 +239,7 @@ const
     ),
     (
       VerDefine: 'VER230';
+      VerEnum: defVer230;
       CompilerVersion: '23.0';
       ProductName: 'Delphi XE2';
       PackageVersion: '160';
@@ -236,6 +250,7 @@ const
     ),
     (
       VerDefine: 'VER240';
+      VerEnum: defVer240;
       CompilerVersion: '24.0';
       ProductName: 'Delphi XE3';
       PackageVersion: '170';
@@ -246,6 +261,7 @@ const
     ),
     (
       VerDefine: 'VER250';
+      VerEnum: defVer250;
       CompilerVersion: '25.0';
       ProductName: 'Delphi XE4';
       PackageVersion: '180';
@@ -256,6 +272,7 @@ const
     ),
     (
       VerDefine: 'VER260';
+      VerEnum: defVer260;
       CompilerVersion: '26.0';
       ProductName: 'Delphi XE5';
       PackageVersion: '190';
@@ -266,6 +283,7 @@ const
     ),
     (
       VerDefine: 'VER270';
+      VerEnum: defVer270;
       CompilerVersion: '27.0';
       ProductName: 'Delphi XE6';
       PackageVersion: '200';
@@ -276,6 +294,7 @@ const
     ),
     (
       VerDefine: 'VER280';
+      VerEnum: defVer280;
       CompilerVersion: '28.0';
       ProductName: 'Delphi XE7';
       PackageVersion: '210';
@@ -286,6 +305,7 @@ const
     ),
     (
       VerDefine: 'VER290';
+      VerEnum: defVer290;
       CompilerVersion: '29.0';
       ProductName: 'Delphi XE8';
       PackageVersion: '220';
@@ -296,6 +316,7 @@ const
     ),
     (
       VerDefine: 'VER300';
+      VerEnum: defVer300;
       CompilerVersion: '30.0';
       ProductName: 'Delphi 10 Seattle';
       PackageVersion: '230';
@@ -306,6 +327,7 @@ const
     ),
     (
       VerDefine: 'VER310';
+      VerEnum: defVer310;
       CompilerVersion: '31.0';
       ProductName: 'Delphi 10.1 Berlin';
       PackageVersion: '240';
@@ -316,6 +338,7 @@ const
     ),
     (
       VerDefine: 'VER320';
+      VerEnum: defVer320;
       CompilerVersion: '32.0';
       ProductName: 'Delphi 10.2 Tokyo';
       PackageVersion: '250';
@@ -326,6 +349,7 @@ const
     ),
     (
       VerDefine: 'VER330';
+      VerEnum: defVer330;
       CompilerVersion: '33.0';
       ProductName: 'Delphi 10.3 Rio';
       PackageVersion: '260';
@@ -336,6 +360,7 @@ const
     ),
     (
       VerDefine: 'VER340';
+      VerEnum: defVer340;
       CompilerVersion: '34.0';
       ProductName: 'Delphi 10.4 Sydney';
       PackageVersion: '270';
@@ -346,6 +371,7 @@ const
     ),
     (
       VerDefine: 'VER350';
+      VerEnum: defVer350;
       CompilerVersion: '35.0';
       ProductName: 'Delphi 11 Alexandria';
       PackageVersion: '280';
@@ -356,6 +382,7 @@ const
     ),
     (
       VerDefine: 'VER360';
+      VerEnum: defVer360;
       CompilerVersion: '36.0';
       ProductName: 'Delphi 12 Athens';
       PackageVersion: '290';
@@ -366,6 +393,7 @@ const
     ),
     (
       VerDefine: 'VER370';
+      VerEnum: defVer370;
       CompilerVersion: '37.0';
       ProductName: 'Delphi 13 Florence';
       PackageVersion: '370';
@@ -487,6 +515,7 @@ begin
   if AVerDefine = defUnknown then
   begin
     Result.VerDefine := '';
+    Result.VerEnum := defUnknown;
     Result.CompilerVersion := '';
     Result.ProductName := '';
     Result.PackageVersion := '';

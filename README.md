@@ -228,7 +228,10 @@ It provides:
 -   `TDelphiBuildSystem` enumeration with suffix-named members
     (e.g. `DCCSystem`, `MSBuildSystem`)
 -   `TDelphiVersion` record with fields for all dataset properties,
-    including an `AliasesCsv` field for alias resolution
+    including an `AliasesCsv` field for alias resolution and a `VerEnum`
+    field carrying the strongly-typed `TDelphiVerDefine` for the entry
+    (enables ordinal version comparisons without resolving the `VerDefine`
+    string)
 -   `PDelphiVersion` pointer type
 -   `DelphiVersions` typed constant array, sorted chronologically
 -   `CD_SCHEMA_VERSION` and `CD_DATA_VERSION` string constants

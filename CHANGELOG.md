@@ -20,6 +20,14 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+## [1.8.1] - 2026-07-29
+
+- Added a `VerEnum: TDelphiVerDefine` field to the `TDelphiVersion` record in the
+  generated `DelphiCompilerVersions.pas` file, populated for every entry. Carries the
+  strongly-typed version enum on the record so consumers can perform ordinal version
+  comparisons without resolving the `VerDefine` string.
+[#32](https://github.com/continuous-delphi/delphi-compiler-versions/issues/32)
+
 ## [1.8.0] - 2026-07-05
 
 - Only a change to the generator to add `TDelphiVerDefine` enumerated type to

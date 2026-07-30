@@ -1,2 +1,3 @@
 # pwsh test output
 tests/pwsh/results/*.xml
+*.bat

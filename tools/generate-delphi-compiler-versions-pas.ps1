@@ -238,6 +238,7 @@ $null = $sb.AppendLine()
 # Record
 $null = $sb.AppendLine('  TDelphiVersion = record')
 $null = $sb.AppendLine('    VerDefine: string;')
+$null = $sb.AppendLine('    VerEnum: TDelphiVerDefine;')
 $null = $sb.AppendLine('    CompilerVersion: string;')
 $null = $sb.AppendLine('    ProductName: string;')
 $null = $sb.AppendLine('    PackageVersion: string;')
@@ -282,10 +283,18 @@ for ($i=0; $i -lt $sorted.Count; $i++) {
 
   $aliasesCsv = Join-AliasesCsv -Aliases $v.aliases
 
+  # VerEnum: the strongly-typed TDelphiVerDefine member matching this entry's
+  # VerDefine string (VER<n> -> defVer<n>), derived from the same token used to
+  # emit the enum above so the two stay in lock-step.
+  $verDefineStr = [string]$v.verDefine
+  if ($verDefineStr -notmatch '^VER\d+$') { throw "Unexpected verDefine '$verDefineStr'; expected VER<digits>." }
+  $verEnumMember = 'defVer' + $verDefineStr.Substring(3)
+
   $comma = if ($i -lt ($sorted.Count-1)) { ',' } else { '' }
 
   $null = $sb.AppendLine('    (')
   $null = $sb.AppendLine('      VerDefine: ' + (Pas-Escape $v.verDefine) + ';')
+  $null = $sb.AppendLine('      VerEnum: ' + $verEnumMember + ';')
   $null = $sb.AppendLine('      CompilerVersion: ' + (Pas-Escape $v.compilerVersion) + ';')
   $null = $sb.AppendLine('      ProductName: ' + (Pas-Escape $v.productName) + ';')
   $null = $sb.AppendLine('      PackageVersion: ' + (Pas-Escape $v.packageVersion) + ';')
@@ -423,6 +432,7 @@ $null = $sb.AppendLine('begin')
 $null = $sb.AppendLine('  if AVerDefine = defUnknown then')
 $null = $sb.AppendLine('  begin')
 $null = $sb.AppendLine('    Result.VerDefine := '''';')
+$null = $sb.AppendLine('    Result.VerEnum := defUnknown;')
 $null = $sb.AppendLine('    Result.CompilerVersion := '''';')
 $null = $sb.AppendLine('    Result.ProductName := '''';')
 $null = $sb.AppendLine('    Result.PackageVersion := '''';')

@@ -1,0 +1,199 @@
+# Tickets for the delphi-compiler-versions project
+# Repo remote url: https://github.com/continuous-delphi/delphi-compiler-versions
+# File used by create-github-issues.ps1
+# dev-automation-tooling script & document reference: C:\code\dev-automation-tooling
+---
+Title: Add GetCurrentBuildPlatform function to generated DelphiCompilerVersions.pas
+Issue: #31
+Labels: enhancement
+Body:
+Add a compile-time platform-detection utility, `GetCurrentBuildPlatform`, to the
+generated `DelphiCompilerVersions.pas` unit. It returns the `TDelphiPlatform` value
+matching the platform the unit is currently being compiled for, resolved entirely
+through `{$IF Defined(...)}` conditionals (no runtime cost).
+
+Because `generated/DelphiCompilerVersions.pas` is a derived artifact and must never
+be hand-edited, the function must be emitted by the PAS generator
+(`tools/generate-delphi-compiler-versions-pas.ps1`), and the committed `.pas` plus
+its golden-file test regenerated with `-Force`.
+
+## Implementation notes
+
+- The function body is static relative to the `TDelphiPlatform` enum member names
+  (all referenced members -- `Win32Target`, `IOSSimulator32Target`, `MacOS32Target`,
+  `Win64Target`, `MacOS64Target`, `Linux64Target`, `Android32Target`, `IOS32Target`,
+  `WinARM64ECTarget`, `IOSSimulator64Target`, `IOS64Target`, `MacOSARM64Target`,
+  `Android64Target` -- already exist in the emitted enum). It does not depend on the
+  JSON dataset contents, so it can be emitted as a fixed block.
+- Ordering matters: within a CPU branch, test `IOS` before `MACOS`. Delphi defines
+  both `MACOS` and `IOS` for iOS targets, so a `MACOS`-first check would misclassify
+  iOS as macOS. Preserve the `{$MESSAGE FATAL ...}` fallbacks so an unrecognized
+  platform fails the compile rather than returning a wrong value.
+- Keep to the unit's conservative Object Pascal subset (Delphi 2+ compatible); the
+  `{$IF Defined(...)}` style used here compiles on all supported versions. `CPU386`
+  and `WIN32` are defined as far back as Delphi 2.
+
+Reference implementation:
+
+```pascal
+//Note: ensure to list IOS before MACOS
+function GetCurrentBuildPlatform:TDelphiPlatform;
+begin
+  {$IF Defined(CPU386)}   //CPU386 defined in Delphi2
+    {$IF Defined(WIN32)}  //WIN32 defined in Delphi2
+      Result := Win32Target;
+    {$ELSEIF Defined(IOS)}
+      Result := IOSSimulator32Target;
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOS32Target;
+    {$ELSE}
+      {$MESSAGE FATAL 'Unknown X86 Delphi platform'}
+    {$ENDIF}
+  {$ELSEIF Defined(CPUX64)}
+    {$IF Defined(MSWINDOWS)}
+      Result := Win64Target;
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOS64Target;
+    {$ELSEIF Defined(LINUX)}
+      Result := Linux64Target;
+    {$ELSE}
+      {$MESSAGE FATAL 'Unknown X64 Delphi platform'}
+    {$ENDIF}
+  {$ELSEIF Defined(CPUARM32)}
+    {$IF Defined(ANDROID)}
+      Result := Android32Target;
+    {$ELSEIF Defined(IOS)}
+      Result := IOS32Target;
+    {$ELSE}
+      {$MESSAGE FATAL 'Unknown ARM32 Delphi platform'}
+    {$ENDIF}
+  {$ELSEIF Defined(CPUARM64)}
+    {$IF Defined(MSWINDOWS)}
+      Result := WinARM64ECTarget;
+    {$ELSEIF Defined(IOS)}
+      {$IFDEF IOSSIMULATOR}
+        Result := IOSSimulator64Target;
+      {$ELSE}
+        Result := IOS64Target;
+      {$ENDIF}
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOSARM64Target;
+    {$ELSEIF Defined(ANDROID)}
+      Result := Android64Target;
+    {$ELSE}
+      {$MESSAGE FATAL 'Unknown ARM64 Delphi platform'}
+    {$ENDIF}
+  {$ELSE}
+    {$MESSAGE FATAL 'Unknown Delphi platform'}
+  {$ENDIF}
+end;
+```
+
+Acceptance criteria:
+- [ ] `GetCurrentBuildPlatform` is emitted by `tools/generate-delphi-compiler-versions-pas.ps1` into the interface and implementation sections of the generated unit.
+- [ ] The committed `generated/DelphiCompilerVersions.pas` is regenerated with `-Force` and includes the function; no manual edits to the `.pas`.
+- [ ] `IOS` is tested before `MACOS` in every CPU branch that has both.
+- [ ] All `{$MESSAGE FATAL ...}` fallback branches are preserved.
+- [ ] The PAS golden-file test is regenerated and the full test suite passes.
+- [ ] Function is documented in the README "Pascal Unit" section alongside the other exposed functions.
+---
+Title: Add VerEnum:TDelphiVerDefine field to TDelphiVersion record
+Issue: #32
+Status: closed
+Labels: enhancement
+Body:
+Add a strongly-typed `VerEnum: TDelphiVerDefine` field to the `TDelphiVersion` record in
+the generated `DelphiCompilerVersions.pas` unit, and populate it for every entry in the
+`DelphiVersions` constant array. Today the record only carries `VerDefine` as a STRING
+(e.g. `'VER200'`); consumers that want to reason about ordering have no typed handle on
+the version and must resolve the string back to `TDelphiVerDefine` themselves. Carrying
+the enum directly on the record makes ordinal comparisons trivial (see the dependent
+`IsDelphiVersionAtLeast` ticket).
+
+Because `generated/DelphiCompilerVersions.pas` is a derived artifact and must never be
+hand-edited, both the record definition and the const-array population must be emitted by
+the PAS generator (`tools/generate-delphi-compiler-versions-pas.ps1`), and the committed
+`.pas` plus its golden-file test regenerated with `-Force`.
+
+## Implementation notes
+
+- Add the field to the emitted `TDelphiVersion` record declaration. Suggested placement:
+  immediately after `VerDefine: string;` so the string and its typed twin sit together.
+- Populate `VerEnum` in each generated array entry. The enum member is derivable from the
+  same data used to emit `VerDefine`: `VER<n>` -> `defVer<n>` (e.g. `'VER200'` -> `defVer200`).
+  The generator already emits both the `TDelphiVerDefine` enum and the array from `$sorted`,
+  so reuse that numeric token rather than parsing the string at runtime.
+- Update `GetDelphiVersion` (enum->record): its `defUnknown` empty-record branch must set
+  `Result.VerEnum := defUnknown` alongside the other cleared fields, so the empty record is
+  internally consistent.
+- Adding a field changes the record's layout; any positional/aggregate record initializers
+  elsewhere would break, but the array uses named-field initialization so new fields are
+  additive. Confirm no other emitted code assumes the field set.
+- Delphi 2+ compatibility: an enum-typed field in a record and an enum value in a typed
+  constant array are both fine on all supported versions -- no subset concerns.
+
+Acceptance criteria:
+- [ ] `TDelphiVersion` gains a `VerEnum: TDelphiVerDefine` field, emitted by the generator.
+- [ ] Every `DelphiVersions` array entry sets `VerEnum` to the enum matching its `VerDefine`.
+- [ ] `GetDelphiVersion(defUnknown)` sets `VerEnum := defUnknown` in the empty record.
+- [ ] The committed `generated/DelphiCompilerVersions.pas` is regenerated with `-Force`; no manual edits.
+- [ ] The PAS golden-file test is regenerated and the full test suite passes; unit tests assert `VerEnum` matches `VerDefine` for representative entries (including the latest).
+- [ ] The new field is documented in the README "Pascal Unit" section.
+---
+Title: Add IsDelphiVersionAtLeast comparison helper to generated DelphiCompilerVersions.pas
+Issue: #33
+Labels: enhancement
+Body:
+Add a helper to the generated `DelphiCompilerVersions.pas` unit that answers "is this
+`TDelphiVersion` at least version X?", where X is expressed as a `TDelphiVerDefine`.
+This lets a consumer make version-gated decisions when configuring a build context.
+
+Depends on the "Add VerEnum:TDelphiVerDefine field to TDelphiVersion record" ticket --
+implement that first. With `VerEnum` on the record, this helper is a one-line ordinal
+comparison and needs no string->enum resolver.
+
+Driving use case (delphi-parser build-context configuration): given a resolved
+`TDelphiVersion`, add a `UNICODE` define when the version is Delphi 2009 or newer,
+e.g. `if IsDelphiVersionAtLeast(ver, defVer200) then AddDefine('UNICODE')`.
+
+Because `generated/DelphiCompilerVersions.pas` is a derived artifact and must never
+be hand-edited, the helper must be emitted by the PAS generator
+(`tools/generate-delphi-compiler-versions-pas.ps1`), and the committed `.pas` plus
+its golden-file test regenerated with `-Force`.
+
+## Proposed API
+
+```pascal
+function IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion;
+  const AMinimum: TDelphiVerDefine): Boolean;
+```
+
+(Name open to revision.)
+
+## Implementation notes
+
+- `TDelphiVerDefine` is ordered chronologically (`defUnknown` = ordinal 0, `defVer90` = 1,
+  through `defVer370`), so "at least" is a direct ordinal comparison. With the `VerEnum`
+  field present the whole body is:
+
+  ```pascal
+  Result := Ord(ADelphiVersion.VerEnum) >= Ord(AMinimum);
+  ```
+
+- Edge cases fall out of the ordinal math and should be verified, not special-cased:
+  - An empty/unknown record has `VerEnum = defUnknown` (ordinal 0), so it is `>=` only
+    `defUnknown` -- i.e. `IsDelphiVersionAtLeast(emptyRec, defVer200)` returns `False`. Good.
+  - `AMinimum = defUnknown` (ordinal 0) returns `True` for any record. Document this as the
+    "no lower bound" contract in a code comment.
+- Keep to the unit's Delphi 2+ conservative subset (`var` params instead of `out`, `Exit`
+  without a value, no inline var).
+
+Acceptance criteria:
+- [ ] `IsDelphiVersionAtLeast` is emitted by `tools/generate-delphi-compiler-versions-pas.ps1` into the interface and implementation sections.
+- [ ] Body is the ordinal comparison `Ord(ADelphiVersion.VerEnum) >= Ord(AMinimum)`; no string parsing or resolver.
+- [ ] The `defUnknown` `AMinimum` = "no lower bound" contract is documented in a code comment.
+- [ ] The committed `generated/DelphiCompilerVersions.pas` is regenerated with `-Force`; no manual edits.
+- [ ] Unit tests cover: equal (`defVer200` vs a VER200 version -> True), strictly greater, strictly less, boundary, empty-record, and `defUnknown` minimum.
+- [ ] The PAS golden-file test is regenerated and the full test suite passes.
+- [ ] Function is documented in the README "Pascal Unit" section.
+---

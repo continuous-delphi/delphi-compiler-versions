@@ -119,6 +119,10 @@ Describe 'DelphiCompilerVersions.pas generator' {
     $script:OutText | Should -Match 'AliasesCsv: string'
   }
 
+  It 'record contains VerEnum field typed as TDelphiVerDefine' {
+    $script:OutText | Should -Match 'VerEnum: TDelphiVerDefine'
+  }
+
   It 'declares TDelphiVerDefine enum' {
     $script:OutText | Should -Match 'TDelphiVerDefine = \('
   }
@@ -179,6 +183,26 @@ Describe 'DelphiCompilerVersions.pas generator' {
 
   It 'VER90 AliasesCsv uses semicolon delimiter' {
     $script:OutText | Should -Match "AliasesCsv: 'Delphi2;D2'"
+  }
+
+  It 'VER90 array entry sets VerEnum to defVer90' {
+    # The VerEnum field must carry the typed member matching the entry's VerDefine.
+    $m = [regex]::Match(
+      $script:OutText,
+      "VerDefine: 'VER90';\s*VerEnum: defVer90;",
+      [System.Text.RegularExpressions.RegexOptions]::Singleline
+    )
+    $m.Success | Should -BeTrue
+  }
+
+  It 'VER350 array entry sets VerEnum to defVer350' {
+    # Latest fixture entry: guards against the enum/array falling out of lock-step.
+    $m = [regex]::Match(
+      $script:OutText,
+      "VerDefine: 'VER350';\s*VerEnum: defVer350;",
+      [System.Text.RegularExpressions.RegexOptions]::Singleline
+    )
+    $m.Success | Should -BeTrue
   }
 
   It 'VER320 SupportedPlatforms set is non-empty' {
@@ -289,6 +313,15 @@ Describe 'DelphiCompilerVersions.pas generator' {
     $m = [regex]::Match(
       $script:OutText,
       'if AVerDefine = defUnknown then[\s\S]*?Result\.SupportedPlatforms := \[\];[\s\S]*?Exit;',
+      [System.Text.RegularExpressions.RegexOptions]::Singleline
+    )
+    $m.Success | Should -BeTrue
+  }
+
+  It 'GetDelphiVersion defUnknown branch sets VerEnum to defUnknown' {
+    $m = [regex]::Match(
+      $script:OutText,
+      'if AVerDefine = defUnknown then[\s\S]*?Result\.VerEnum := defUnknown;[\s\S]*?Exit;',
       [System.Text.RegularExpressions.RegexOptions]::Singleline
     )
     $m.Success | Should -BeTrue
