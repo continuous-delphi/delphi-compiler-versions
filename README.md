@@ -245,6 +245,9 @@ It provides:
 -   `IsDelphiVersionAtLeast` -- returns `True` when a `TDelphiVersion` is at
     least the given `TDelphiVerDefine` (ordinal comparison on `VerEnum`); a
     `defUnknown` minimum acts as "no lower bound"
+-   `GetCurrentBuildPlatform` -- returns the `TDelphiPlatform` the unit is being
+    compiled for, resolved at compile time. On Delphi 6+ it inspects the CPU and
+    OS conditional symbols; on Delphi 2-5 (Win32-only) it returns `Win32Target`
 
 The generated unit is intentionally written using a conservative subset
 of Object Pascal:

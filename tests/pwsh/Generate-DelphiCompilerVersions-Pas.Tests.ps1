@@ -241,6 +241,10 @@ Describe 'DelphiCompilerVersions.pas generator' {
     $script:OutText | Should -Match 'function IsDelphiVersionAtLeast\(const ADelphiVersion: TDelphiVersion; const AMinimum: TDelphiVerDefine\): Boolean'
   }
 
+  It 'declares GetCurrentBuildPlatform returning TDelphiPlatform' {
+    $script:OutText | Should -Match 'function GetCurrentBuildPlatform: TDelphiPlatform;'
+  }
+
   It 'declares CurrentDelphiCompilerVersion as var' {
     $m = [regex]::Match(
       $script:OutText,
@@ -345,6 +349,69 @@ Describe 'DelphiCompilerVersions.pas generator' {
   It 'GetDelphiVersion avoids the XE+ only Default() intrinsic' {
     # This unit must compile on Delphi 2+, where Default() does not exist.
     $script:OutText | Should -Not -Match 'Default\(TDelphiVersion\)'
+  }
+
+  # -------------------------------------------------------------------------
+  # GetCurrentBuildPlatform (compile-time platform detection)
+  # -------------------------------------------------------------------------
+
+  Context 'GetCurrentBuildPlatform emission' {
+
+    BeforeAll {
+      # Isolate the function body (from the impl signature to its 'end;').
+      $script:GcbpBody = [regex]::Match(
+        $script:OutText,
+        'function GetCurrentBuildPlatform: TDelphiPlatform;\r?\n(?:(?!function ).)*?\r?\nend;',
+        [System.Text.RegularExpressions.RegexOptions]::Singleline
+      ).Value
+    }
+
+    It 'emits the implementation body' {
+      $script:GcbpBody | Should -Not -BeNullOrEmpty
+    }
+
+    It 'guards the {$IF} tree behind CONDITIONALEXPRESSIONS with a Win32Target fallback' {
+      # Delphi 2-5 reject {$IF}; the tree is gated for Delphi 6+ and those older
+      # compilers (Win32-only) take the {$ELSE} branch.
+      $m = [regex]::Match(
+        $script:GcbpBody,
+        '\{\$IFDEF CONDITIONALEXPRESSIONS\}[\s\S]*?\{\$ELSE\}\s*Result := Win32Target;\s*\{\$ENDIF\}\s*end;',
+        [System.Text.RegularExpressions.RegexOptions]::Singleline
+      )
+      $m.Success | Should -BeTrue
+    }
+
+    It 'uses {$ELSEIF True} catch-alls and no stray bare {$ELSE} in the {$IF} chains' {
+      # A bare {$ELSE} inside a skipped {$IF} chain desyncs the Delphi 2-5
+      # preprocessor. Catch-alls must be {$ELSEIF True} (one per CPU branch plus
+      # the outer = 5). The only bare {$ELSE} permitted are the CONDITIONALEXPRESSIONS
+      # guard and the nested IOSSIMULATOR {$IFDEF} = exactly 2.
+      ([regex]::Matches($script:GcbpBody, '\{\$ELSEIF True\}')).Count | Should -Be 5
+      ([regex]::Matches($script:GcbpBody, '\{\$ELSE\}')).Count | Should -Be 2
+    }
+
+    It 'closes each {$IF} chain with {$IFEND} (not {$ENDIF})' {
+      # {$IFEND} terminates {$IF} on Delphi 6/7; {$ENDIF} only closes {$IFDEF}.
+      ([regex]::Matches($script:GcbpBody, '\{\$IFEND\}')).Count | Should -Be 5
+    }
+
+    It 'tests IOS before MACOS in every CPU branch that has both' {
+      # Delphi defines MACOS for iOS targets too, so IOS must be matched first.
+      $idxIosX86 = $script:GcbpBody.IndexOf('IOSSimulator32Target')
+      $idxMacX86 = $script:GcbpBody.IndexOf('MacOS32Target')
+      $idxIosX86 | Should -BeGreaterThan -1
+      $idxIosX86 | Should -BeLessThan $idxMacX86
+
+      $idxIosArm = $script:GcbpBody.IndexOf('IOS64Target')
+      $idxMacArm = $script:GcbpBody.IndexOf('MacOSARM64Target')
+      $idxIosArm | Should -BeGreaterThan -1
+      $idxIosArm | Should -BeLessThan $idxMacArm
+    }
+
+    It 'preserves all five {$MESSAGE FATAL} fallbacks' {
+      # X86, X64, ARM32, ARM64, and the outer CPU catch-all.
+      ([regex]::Matches($script:GcbpBody, '\{\$MESSAGE FATAL ')).Count | Should -Be 5
+    }
   }
 
   # -------------------------------------------------------------------------

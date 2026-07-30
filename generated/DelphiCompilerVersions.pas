@@ -411,6 +411,7 @@ function GetLatestDelphiVersion: TDelphiVersion;
 function GetDelphiVersion(const AVerDefine: TDelphiVerDefine): TDelphiVersion;
 function IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion; const AMinimum: TDelphiVerDefine): Boolean;
 function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;
+function GetCurrentBuildPlatform: TDelphiPlatform;
 
 var
   CurrentDelphiCompilerVersion: TDelphiVersion;
@@ -546,6 +547,63 @@ begin
   begin
     Result := ADelphiVersion.CompilerVersion;
   end;
+end;
+
+function GetCurrentBuildPlatform: TDelphiPlatform;
+// Compile-time target platform. Note: IOS is tested before MACOS because Delphi
+// defines MACOS for iOS targets too, so a MACOS-first test misclassifies iOS.
+begin
+{$IFDEF CONDITIONALEXPRESSIONS}
+  {$IF Defined(CPU386)}
+    {$IF Defined(WIN32)}
+      Result := Win32Target;
+    {$ELSEIF Defined(IOS)}
+      Result := IOSSimulator32Target;
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOS32Target;
+    {$ELSEIF True}
+      {$MESSAGE FATAL 'Unknown X86 Delphi platform'}
+    {$IFEND}
+  {$ELSEIF Defined(CPUX64)}
+    {$IF Defined(MSWINDOWS)}
+      Result := Win64Target;
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOS64Target;
+    {$ELSEIF Defined(LINUX)}
+      Result := Linux64Target;
+    {$ELSEIF True}
+      {$MESSAGE FATAL 'Unknown X64 Delphi platform'}
+    {$IFEND}
+  {$ELSEIF Defined(CPUARM32)}
+    {$IF Defined(ANDROID)}
+      Result := Android32Target;
+    {$ELSEIF Defined(IOS)}
+      Result := IOS32Target;
+    {$ELSEIF True}
+      {$MESSAGE FATAL 'Unknown ARM32 Delphi platform'}
+    {$IFEND}
+  {$ELSEIF Defined(CPUARM64)}
+    {$IF Defined(MSWINDOWS)}
+      Result := WinARM64ECTarget;
+    {$ELSEIF Defined(IOS)}
+      {$IFDEF IOSSIMULATOR}
+        Result := IOSSimulator64Target;
+      {$ELSE}
+        Result := IOS64Target;
+      {$ENDIF}
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOSARM64Target;
+    {$ELSEIF Defined(ANDROID)}
+      Result := Android64Target;
+    {$ELSEIF True}
+      {$MESSAGE FATAL 'Unknown ARM64 Delphi platform'}
+    {$IFEND}
+  {$ELSEIF True}
+    {$MESSAGE FATAL 'Unknown Delphi platform'}
+  {$IFEND}
+{$ELSE}
+  Result := Win32Target;
+{$ENDIF}
 end;
 
 initialization

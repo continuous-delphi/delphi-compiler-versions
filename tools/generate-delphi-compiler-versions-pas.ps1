@@ -314,6 +314,7 @@ $null = $sb.AppendLine('function GetLatestDelphiVersion: TDelphiVersion;')
 $null = $sb.AppendLine('function GetDelphiVersion(const AVerDefine: TDelphiVerDefine): TDelphiVersion;')
 $null = $sb.AppendLine('function IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion; const AMinimum: TDelphiVerDefine): Boolean;')
 $null = $sb.AppendLine('function LookupRTLVersion(const ADelphiVersion:TDelphiVersion):string;')
+$null = $sb.AppendLine('function GetCurrentBuildPlatform: TDelphiPlatform;')
 $null = $sb.AppendLine()
 # CurrentDelphiCompilerVersion and IsCurrentDelphiCompilerVersionKnown are set in the
 # initialization section via $IFDEF VERxxx chains; they are vars, not consts,
@@ -472,6 +473,76 @@ $null = $sb.AppendLine('  begin')
 $null = $sb.AppendLine('    Result := ADelphiVersion.CompilerVersion;')
 $null = $sb.AppendLine('  end;')
 $null = $sb.AppendLine('end;')
+$null = $sb.AppendLine()
+
+# GetCurrentBuildPlatform: compile-time target-platform detection, emitted as a
+# fixed (data-independent) block. The whole {$IF} tree is guarded by
+# {$IFDEF CONDITIONALEXPRESSIONS} (Delphi 6+) because Delphi 2-5 reject
+# {$IF}/{$IFEND}/{$ELSEIF}; those compilers only ever target Win32 and take the
+# {$ELSE} fallback. Catch-all branches use {$ELSEIF True} rather than a bare
+# {$ELSE}: a bare {$ELSE} inside a skipped {$IF} chain desyncs the Delphi 2-5
+# preprocessor (it does not understand {$IF} but does act on {$ELSE}), so keeping
+# the skipped text free of bare {$ELSE} lets it stay balanced. Emitted from a
+# single-quoted here-string so PowerShell does not interpolate the $-directives.
+$gcbpBlock = @'
+function GetCurrentBuildPlatform: TDelphiPlatform;
+// Compile-time target platform. Note: IOS is tested before MACOS because Delphi
+// defines MACOS for iOS targets too, so a MACOS-first test misclassifies iOS.
+begin
+{$IFDEF CONDITIONALEXPRESSIONS}
+  {$IF Defined(CPU386)}
+    {$IF Defined(WIN32)}
+      Result := Win32Target;
+    {$ELSEIF Defined(IOS)}
+      Result := IOSSimulator32Target;
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOS32Target;
+    {$ELSEIF True}
+      {$MESSAGE FATAL 'Unknown X86 Delphi platform'}
+    {$IFEND}
+  {$ELSEIF Defined(CPUX64)}
+    {$IF Defined(MSWINDOWS)}
+      Result := Win64Target;
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOS64Target;
+    {$ELSEIF Defined(LINUX)}
+      Result := Linux64Target;
+    {$ELSEIF True}
+      {$MESSAGE FATAL 'Unknown X64 Delphi platform'}
+    {$IFEND}
+  {$ELSEIF Defined(CPUARM32)}
+    {$IF Defined(ANDROID)}
+      Result := Android32Target;
+    {$ELSEIF Defined(IOS)}
+      Result := IOS32Target;
+    {$ELSEIF True}
+      {$MESSAGE FATAL 'Unknown ARM32 Delphi platform'}
+    {$IFEND}
+  {$ELSEIF Defined(CPUARM64)}
+    {$IF Defined(MSWINDOWS)}
+      Result := WinARM64ECTarget;
+    {$ELSEIF Defined(IOS)}
+      {$IFDEF IOSSIMULATOR}
+        Result := IOSSimulator64Target;
+      {$ELSE}
+        Result := IOS64Target;
+      {$ENDIF}
+    {$ELSEIF Defined(MACOS)}
+      Result := MacOSARM64Target;
+    {$ELSEIF Defined(ANDROID)}
+      Result := Android64Target;
+    {$ELSEIF True}
+      {$MESSAGE FATAL 'Unknown ARM64 Delphi platform'}
+    {$IFEND}
+  {$ELSEIF True}
+    {$MESSAGE FATAL 'Unknown Delphi platform'}
+  {$IFEND}
+{$ELSE}
+  Result := Win32Target;
+{$ENDIF}
+end;
+'@
+foreach ($gcbpLine in ($gcbpBlock -split "`r?`n")) { $null = $sb.AppendLine($gcbpLine) }
 $null = $sb.AppendLine()
 
 # Emit initialization section: assign CurrentDelphiCompilerVersion via $IFDEF chain.

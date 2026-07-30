@@ -20,6 +20,14 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+## [1.8.3] - 2026-07-29
+
+- Added `GetCurrentBuildPlatform: TDelphiPlatform` to the generated
+  `DelphiCompilerVersions.pas` file. Resolves the current target platform at compile
+  time from the CPU/OS conditional symbols. The `{$IF}` tree is guarded for Delphi 6+
+  (Delphi 2-5 return `Win32Target`), verified to compile from Delphi 2 through 12 Athens.
+[#31](https://github.com/continuous-delphi/delphi-compiler-versions/issues/31)
+
 ## [1.8.2] - 2026-07-29
 
 - Added `IsDelphiVersionAtLeast(const ADelphiVersion: TDelphiVersion; const AMinimum:

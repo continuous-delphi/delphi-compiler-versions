@@ -5,6 +5,7 @@
 ---
 Title: Add GetCurrentBuildPlatform function to generated DelphiCompilerVersions.pas
 Issue: #31
+Status: closed
 Labels: enhancement
 Body:
 Add a compile-time platform-detection utility, `GetCurrentBuildPlatform`, to the
@@ -197,4 +198,61 @@ Acceptance criteria:
 - [ ] Unit tests cover: equal (`defVer200` vs a VER200 version -> True), strictly greater, strictly less, boundary, empty-record, and `defUnknown` minimum.
 - [ ] The PAS golden-file test is regenerated and the full test suite passes.
 - [ ] Function is documented in the README "Pascal Unit" section.
+---
+Title: DelphiCompilerVersions.pas fails to compile on Delphi 2009 and 2010 (System.SysUtils dotted unit name)
+Issue: #34
+Labels: bug
+Body:
+The generated `DelphiCompilerVersions.pas` does not compile on Delphi 2009 (VER200) or
+Delphi 2010 (VER210), contradicting the unit's advertised "Delphi 2+" compatibility.
+
+The `uses` clause selects the unit name by `{$IFDEF UNICODE}`:
+
+```pascal
+uses
+{$IFDEF UNICODE}
+  System.SysUtils
+{$ELSE}
+  SysUtils
+{$ENDIF}
+  ;
+```
+
+`UNICODE` is defined from Delphi 2009 onward, but dotted (namespaced) unit names such as
+`System.SysUtils` were not introduced until Delphi XE2 (VER230). Delphi 2009 and 2010 have
+`UNICODE` defined yet no namespace support, so they take the `System.SysUtils` branch and
+fail. The generator comment at the emission site incorrectly states that UNICODE
+"introduced both UnicodeString and dotted unit names" -- dotted names came two releases later.
+
+## Reproduction (verified)
+
+Compiling a trivial program that `uses DelphiCompilerVersions;` with the Delphi 2009 and
+Delphi 2010 command-line compilers:
+
+```
+DelphiCompilerVersions.pas(424) Fatal: F1026 File not found: 'System.SysUtils.dcu'
+```
+
+The gap is exactly VER200 and VER210. Delphi 2-2007 (no UNICODE, use plain `SysUtils`) and
+XE2+ (namespaces, `System.SysUtils` resolves) both compile. This was found while build-testing
+GetCurrentBuildPlatform (#31) across the toolchain matrix; #31 itself compiles wherever the
+unit's `uses` clause does.
+
+## Options to consider (confirm approach before implementing)
+
+- Simplest: always emit plain `SysUtils`. Flat unit names still resolve on XE2+ provided the
+  consumer's unit scope names include `System` (true for default projects). Risk: a consumer
+  with a trimmed scope-names list would not resolve the flat name.
+- Precise: select the dotted name only for namespace-capable compilers (CompilerVersion >= 23 /
+  XE2+) rather than by `UNICODE`. Any `{$IF CompilerVersion ...}` MUST stay compatible with the
+  Delphi 2-5 constraint already documented in the generator (those compilers reject `{$IF}` and
+  mis-handle bare `{$ELSE}` in skipped text -- see the GetCurrentBuildPlatform emission notes and
+  the CONDITIONALEXPRESSIONS guard pattern used there).
+
+## Acceptance criteria
+- [ ] `generated/DelphiCompilerVersions.pas` compiles on Delphi 2009 and Delphi 2010.
+- [ ] Still compiles on Delphi 2-2007, and on XE2+ (including a consumer whose unit scope names are not the IDE defaults, if the chosen fix depends on scope names).
+- [ ] The inaccurate "dotted unit names" generator comment is corrected.
+- [ ] Change is emitted by the generator; committed `.pas` regenerated with `-Force`.
+- [ ] A unit test captures the selection logic so the regression cannot silently return.
 ---
