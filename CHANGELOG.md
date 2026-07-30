@@ -20,6 +20,16 @@ Note: The `tag-release` script will fail if it does not find a matching version
 section here.
 
 ---
+## [1.8.4] - 2026-07-29
+
+- Fixed `DelphiCompilerVersions.pas` failing to compile on Delphi 2009 and 2010. The
+  `uses` clause selected the namespaced `System.SysUtils` under `{$IFDEF UNICODE}`, but
+  dotted unit names did not exist until XE2. Selection now uses only
+  `{$IFDEF}`/`{$DEFINE}`/`{$UNDEF}` (no `{$IF}`, safe on Delphi 2-5): enable dotted names
+  from `UNICODE`, then undefine them for the pre-XE2 releases 2009/2010/XE. Verified to
+  compile from Delphi 2 through 12 Athens.
+[#34](https://github.com/continuous-delphi/delphi-compiler-versions/issues/34)
+
 ## [1.8.3] - 2026-07-29
 
 - Added `GetCurrentBuildPlatform: TDelphiPlatform` to the generated

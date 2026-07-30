@@ -201,6 +201,7 @@ Acceptance criteria:
 ---
 Title: DelphiCompilerVersions.pas fails to compile on Delphi 2009 and 2010 (System.SysUtils dotted unit name)
 Issue: #34
+Status: closed
 Labels: bug
 Body:
 The generated `DelphiCompilerVersions.pas` does not compile on Delphi 2009 (VER200) or

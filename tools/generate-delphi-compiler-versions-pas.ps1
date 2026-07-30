@@ -325,16 +325,31 @@ $null = $sb.AppendLine('  IsCurrentDelphiCompilerVersionKnown: Boolean;')
 $null = $sb.AppendLine()
 $null = $sb.AppendLine('implementation')
 $null = $sb.AppendLine()
-$null = $sb.AppendLine('uses')
-# UNICODE is defined from Delphi 2009 (VER200) onward - the same version that
-# introduced both UnicodeString and dotted unit names. Using $IFDEF UNICODE
-# avoids $IF/$IFEND which Delphi 2-5 do not support even inside inactive branches.
-$null = $sb.AppendLine('{$IFDEF UNICODE}')
-$null = $sb.AppendLine('  System.SysUtils')
-$null = $sb.AppendLine('{$ELSE}')
-$null = $sb.AppendLine('  SysUtils')
-$null = $sb.AppendLine('{$ENDIF}')
-$null = $sb.AppendLine('  ;')
+# The dotted (namespaced) unit name System.SysUtils only exists from Delphi XE2
+# onward; earlier compilers use the flat name SysUtils. Selecting on {$IFDEF UNICODE}
+# alone was wrong: UNICODE is defined from Delphi 2009, but namespaces did not arrive
+# until XE2, so Delphi 2009/2010 took the dotted branch and failed to compile (#34).
+#
+# This selection uses only {$IFDEF}/{$DEFINE}/{$UNDEF} (supported since Delphi 1) and
+# avoids {$IF} entirely, so it is safe on every version including Delphi 2-5: start
+# from UNICODE (Delphi 2009+), then subtract the three UNICODE-era releases that
+# predate namespaces - 2009 (VER200), 2010 (VER210) and XE (VER220). XE2 (VER230) is
+# the first with dotted unit names. Emitted from a single-quoted here-string so
+# PowerShell does not interpolate the $-directives.
+$usesBlock = @'
+{$UNDEF SUPPORTS_DOTTED_NAMES}                            // default: flat unit names (Delphi 2..2007)
+{$IFDEF UNICODE}{$DEFINE SUPPORTS_DOTTED_NAMES}{$ENDIF}   // Delphi 2009+ : dotted names...
+{$IFDEF VER200}{$UNDEF SUPPORTS_DOTTED_NAMES}{$ENDIF}     // ...except 2009
+{$IFDEF VER210}{$UNDEF SUPPORTS_DOTTED_NAMES}{$ENDIF}     // ...2010
+{$IFDEF VER220}{$UNDEF SUPPORTS_DOTTED_NAMES}{$ENDIF}     // ...and XE  (last three pre-XE2 releases)
+
+{$IFDEF SUPPORTS_DOTTED_NAMES}
+uses System.SysUtils;
+{$ELSE}
+uses SysUtils;
+{$ENDIF}
+'@
+foreach ($usesLine in ($usesBlock -split "`r?`n")) { $null = $sb.AppendLine($usesLine) }
 $null = $sb.AppendLine()
 # TextEqualsIgnoreCase: CompareText is in SysUtils since Delphi 1 and is
 # locale-independent ASCII comparison - correct for all identifiers used here.

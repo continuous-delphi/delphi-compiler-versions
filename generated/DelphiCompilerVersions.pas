@@ -419,13 +419,17 @@ var
 
 implementation
 
-uses
-{$IFDEF UNICODE}
-  System.SysUtils
+{$UNDEF SUPPORTS_DOTTED_NAMES}                            // default: flat unit names (Delphi 2..2007)
+{$IFDEF UNICODE}{$DEFINE SUPPORTS_DOTTED_NAMES}{$ENDIF}   // Delphi 2009+ : dotted names...
+{$IFDEF VER200}{$UNDEF SUPPORTS_DOTTED_NAMES}{$ENDIF}     // ...except 2009
+{$IFDEF VER210}{$UNDEF SUPPORTS_DOTTED_NAMES}{$ENDIF}     // ...2010
+{$IFDEF VER220}{$UNDEF SUPPORTS_DOTTED_NAMES}{$ENDIF}     // ...and XE  (last three pre-XE2 releases)
+
+{$IFDEF SUPPORTS_DOTTED_NAMES}
+uses System.SysUtils;
 {$ELSE}
-  SysUtils
+uses SysUtils;
 {$ENDIF}
-  ;
 
 function TextEqualsIgnoreCase(const A, B: string): Boolean;
 begin

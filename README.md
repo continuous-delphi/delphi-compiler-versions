@@ -253,7 +253,9 @@ The generated unit is intentionally written using a conservative subset
 of Object Pascal:
 - `var` parameters are used instead of `out`
 - `Exit` is used without a return value expression
-- `uses` items leverage `$IFDEF UNICODE` for implementing unit scoped names
+- `uses` items select the namespaced unit name (`System.SysUtils`) only on XE2 and
+  later, falling back to the flat name (`SysUtils`) on all earlier compilers; the
+  selection uses only `{$IFDEF}` directives so it is safe back to Delphi 2
 - functionality is exposed through simple procedures and functions rather than
   static classes.
 

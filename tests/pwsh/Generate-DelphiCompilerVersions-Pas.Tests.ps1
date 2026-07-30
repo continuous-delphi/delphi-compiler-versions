@@ -262,28 +262,47 @@ Describe 'DelphiCompilerVersions.pas generator' {
   # Implementation correctness
   # -------------------------------------------------------------------------
 
-  It 'uses clause contains IFDEF UNICODE guard' {
-    $script:OutText | Should -Match '\{\$IFDEF UNICODE\}'
-  }
+  Context 'uses clause SysUtils selection (issue #34)' {
 
-  It 'uses System.SysUtils inside UNICODE branch' {
-    $m = [regex]::Match(
-      $script:OutText,
-      '\{\$IFDEF UNICODE\}[\s\S]*?System\.SysUtils[\s\S]*?\{\$ELSE\}',
-      [System.Text.RegularExpressions.RegexOptions]::Singleline
-    )
-    $m.Success | Should -BeTrue
-  }
+    BeforeAll {
+      # The SysUtils-selection region: the SUPPORTS_DOTTED_NAMES computation plus
+      # the conditional uses clause, ending at the {$ENDIF} after 'uses SysUtils;'.
+      $script:UsesBlock = [regex]::Match(
+        $script:OutText,
+        '\{\$UNDEF SUPPORTS_DOTTED_NAMES\}[\s\S]*?uses SysUtils;\s*\r?\n\{\$ENDIF\}',
+        [System.Text.RegularExpressions.RegexOptions]::Singleline
+      ).Value
+    }
 
-  It 'uses plain SysUtils in ELSE branch' {
-    $m = [regex]::Match(
-      $script:OutText,
-      '\{\$IFDEF UNICODE\}[\s\S]*?\{\$ELSE\}([\s\S]*?)\{\$ENDIF\}',
-      [System.Text.RegularExpressions.RegexOptions]::Singleline
-    )
-    $m.Success | Should -BeTrue
-    $m.Groups[1].Value | Should -Match 'SysUtils'
-    $m.Groups[1].Value | Should -Not -Match 'System\.SysUtils'
+    It 'extracts the SysUtils-selection region' {
+      $script:UsesBlock | Should -Not -BeNullOrEmpty
+    }
+
+    It 'selects the unit name with only {$IFDEF}/{$DEFINE}/{$UNDEF} (no {$IF}, safe on Delphi 2-5)' {
+      # Delphi 2-5 reject {$IF}/{$IFEND}/{$ELSEIF}; the selection must avoid them
+      # entirely and use directives supported since Delphi 1.
+      $script:UsesBlock | Should -Not -Match '\{\$IF[ \}]'
+      $script:UsesBlock | Should -Not -Match '\{\$IFEND\}'
+      $script:UsesBlock | Should -Not -Match '\{\$ELSEIF'
+    }
+
+    It 'enables dotted names from UNICODE then subtracts the pre-XE2 releases 2009/2010/XE' {
+      # UNICODE marks Delphi 2009+, but dotted unit names only arrived in XE2, so
+      # VER200 (2009), VER210 (2010) and VER220 (XE) must be undefined again (#34).
+      $script:UsesBlock | Should -Match '\{\$IFDEF UNICODE\}\{\$DEFINE SUPPORTS_DOTTED_NAMES\}\{\$ENDIF\}'
+      $script:UsesBlock | Should -Match '\{\$IFDEF VER200\}\{\$UNDEF SUPPORTS_DOTTED_NAMES\}\{\$ENDIF\}'
+      $script:UsesBlock | Should -Match '\{\$IFDEF VER210\}\{\$UNDEF SUPPORTS_DOTTED_NAMES\}\{\$ENDIF\}'
+      $script:UsesBlock | Should -Match '\{\$IFDEF VER220\}\{\$UNDEF SUPPORTS_DOTTED_NAMES\}\{\$ENDIF\}'
+    }
+
+    It 'uses dotted System.SysUtils when SUPPORTS_DOTTED_NAMES, flat SysUtils otherwise' {
+      $m = [regex]::Match(
+        $script:UsesBlock,
+        '\{\$IFDEF SUPPORTS_DOTTED_NAMES\}\s*uses System\.SysUtils;\s*\{\$ELSE\}\s*uses SysUtils;\s*\{\$ENDIF\}',
+        [System.Text.RegularExpressions.RegexOptions]::Singleline
+      )
+      $m.Success | Should -BeTrue
+    }
   }
 
   It 'uses CompareText not string.Compare' {
