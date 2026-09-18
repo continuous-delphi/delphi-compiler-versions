@@ -373,7 +373,8 @@
       "aliases": ["Delphi 13", "Florence", "13 Florence"],
       "notes": [
         "RAD Studio 13 unifies internal version numbers to 37 (registry, RTL, packages).",
-        "Update 1 for RAD Studio 13 Florence added support for WinARM64EC"
+        "Update 1 for RAD Studio 13 Florence added support for WinARM64EC",
+        "Update 2 for RAD Studio 13 Florence replaced the Linux64 toolchain with an LLVM v20.1.8 based compiler and LLD linker"
       ]
     }
   ]
